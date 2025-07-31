@@ -15,6 +15,7 @@ import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
 import { ShareButton } from './ShareButton';
 import { Separator } from '@/components/ui/separator';
 
+
 export default function BlogPage() {
   return (
     <>

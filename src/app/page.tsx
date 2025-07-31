@@ -3,7 +3,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Laptop, Server, Network, ShieldCheck, Star, Users, Briefcase } from "lucide-react";
-import { blogPosts } from "@/lib/mock-data";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
@@ -114,26 +113,7 @@ export default function Home() {
              <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">Mantente al día con las últimas innovaciones y consejos tecnológicos para tu negocio.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {blogPosts.slice(0, 3).map((post) => (
-              <Card key={post.id}>
-                <CardHeader>
-                  <div className="relative aspect-video mb-4">
-                    <Image src={post.imageUrl} alt={post.title} fill className="rounded-md object-cover" data-ai-hint={post.aiHint} />
-                  </div>
-                  <CardTitle className="text-xl h-16">{post.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription>{post.excerpt}</CardDescription>
-                </CardContent>
-                <CardFooter>
-                  <Button asChild variant="link" className="p-0">
-                    <Link href={`/blog/${post.slug}`}>
-                      Leer más <ArrowRight className="ml-2" />
-                    </Link>
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
+            
           </div>
         </section>
 

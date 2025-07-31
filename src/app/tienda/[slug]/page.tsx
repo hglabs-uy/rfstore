@@ -1,4 +1,3 @@
-
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -77,7 +76,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <Header />
       <main className="container mx-auto px-4 py-8 md:py-12 flex-grow">
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-          {/* Product Images */}
+          {/* Product Images */}                                                 
           <div className="w-full">
             <Carousel className="w-full max-w-xl mx-auto">
               <CarouselContent>
@@ -100,7 +99,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </Carousel>
           </div>
 
-          {/* Product Details */}
+          {/* Product Details */}                                         
           <div>
             <h1 className="text-3xl lg:text-4xl font-bold font-headline mb-2">{product.name}</h1>
             <p className="text-lg text-muted-foreground mb-4">{product.brand.name}</p>
