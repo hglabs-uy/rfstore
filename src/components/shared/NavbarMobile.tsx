@@ -25,8 +25,8 @@ export const NavbarMobile = () => {
 					onClick={() => setActiveNavMobile(false)}
 				>
 					<p>
-						Celulares
-						<span className='text-cyan-600'>Baratos</span>
+						RF
+						<span className='text-cyan-600'>STORE</span>
 					</p>
 				</Link>
 

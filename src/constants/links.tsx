@@ -1,8 +1,8 @@
 import {
 	FaBoxOpen,
 	FaCartShopping,
-	FaFacebookF,
 	FaInstagram,
+	FaLinkedin,
 	FaTiktok,
 	FaXTwitter,
 } from 'react-icons/fa6';
@@ -28,9 +28,9 @@ export const navbarLinks = [
 export const socialLinks = [
 	{
 		id: 1,
-		title: 'Facebook',
-		href: 'https://www.facebook.com',
-		icon: <FaFacebookF />,
+		title: 'Linkedin',
+		href: 'https://www.linkedin.com/company/rfstore/',
+		icon: <FaLinkedin />,
 	},
 	{
 		id: 2,
@@ -41,7 +41,7 @@ export const socialLinks = [
 	{
 		id: 3,
 		title: 'Instagram',
-		href: 'https://www.instagram.com',
+		href: 'https://www.instagram.com/rfstore.uy/',
 		icon: <FaInstagram />,
 	},
 	{

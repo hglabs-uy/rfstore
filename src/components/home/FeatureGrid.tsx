@@ -10,7 +10,7 @@ export const FeatureGrid = () => {
 				<MdLocalShipping size={40} className='text-slate-600' />
 
 				<div className='space-y-1'>
-					<p className='font-semibold'>Envío gratis</p>
+					<p className='font-semibold'>Envío gratis dentro de Montevideo</p>
 					<p className='text-sm'>En todos nuestros productos</p>
 				</div>
 			</div>
@@ -44,7 +44,7 @@ export const FeatureGrid = () => {
 				<div className='space-y-1'>
 					<p className='font-semibold'>Garantía</p>
 					<p className='text-sm'>
-						Garantía de 1 año en todos los equipos
+						Garantía de 6 meses en todos los equipos
 					</p>
 				</div>
 			</div>

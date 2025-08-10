@@ -9,7 +9,7 @@ export const Footer = () => {
 				to='/'
 				className={`text-2xl font-bold tracking-tighter transition-all text-white flex-1`}
 			>
-				Celulares Baratos
+				RF STORE
 			</Link>
 
 			<div className='flex flex-col gap-4 flex-1'>

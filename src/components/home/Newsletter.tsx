@@ -2,12 +2,12 @@ export const Newsletter = () => {
 	return (
 		<div className='relative bg-gray-500 text-white py-20'>
 			{/* IMAGEN DE FONDO */}
-			<div
+			{/* <div
 				className='absolute inset-0 bg-cover bg-center opacity-70 h-full'
 				style={{
 					backgroundImage: 'url(/img/background-newsletter.webp)',
 				}}
-			/>
+			/> */}
 
 			{/* CONTENIDO DE NEWSLETTER */}
 			<div className='container z-10 relative p-5 md:p-0'>

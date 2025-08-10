@@ -1,45 +1,101 @@
+import { useForm, ValidationError } from '@formspree/react';
+
 export const AboutPage = () => {
-	return (
-		<div className='space-y-5'>
-			<h1 className='text-center text-4xl font-semibold tracking-tight mb-5'>
-				Nuestra empresa
-			</h1>
+    const [state, handleSubmit] = useForm("mvgqddop");
 
-			<img
-				src='https://plus.unsplash.com/premium_photo-1682716270464-9a91cbbcf3b7?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZWRpZmljaW8lMjBkZSUyMGxhJTIwZW1wcmVzYXxlbnwwfHwwfHx8MA%3D%3D'
-				alt='Imagen de fondo'
-				className='h-[500px] w-full object-cover'
-			/>
+    if (state.succeeded) {
+        return (
+            <div className='text-center p-10 max-w-2xl mx-auto'>
+                <h2 className='text-2xl font-semibold text-green-600'>¡Gracias por tu mensaje!</h2>
+                <p className='text-white mt-2'>Nos pondremos en contacto contigo pronto.</p>
+            </div>
+        );
+    }
 
-			<div className='flex flex-col gap-4 tracking-tighter leading-7 text-sm font-medium text-slate-800'>
-				<p>
-					CelularesBaratos es una tienda en línea que se dedica a la
-					venta de celulares, fundada en 2021. Nuestro objetivo es
-					ofrecer a nuestros clientes la mejor calidad y precio en
-					celulares. Contamos con un equipo de profesionales que se
-					encargan de seleccionar los mejores productos para ti.
-				</p>
+    return (
+        <div className='space-y-8 max-w-4xl mx-auto p-4 md:p-6'>
+            <h1 className='text-center text-4xl font-semibold tracking-tight text-black'>
+                Contacto
+            </h1>
 
-				<p>
-					En CelularesBaratos podrás encontrar una amplia variedad de
-					celulares de las mejores marcas. Además, contamos con
-					promociones y descuentos exclusivos para que puedas comprar
-					tu celular al mejor precio.
-				</p>
+            <div className="w-full p-6 md:p-8 border border-gray-200 rounded-lg bg-slate-500">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div>
+                        <label htmlFor="name" className="block text-sm font-medium text-white">
+                            Nombre Completo o Empresa <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            id="name"
+                            type="text"
+                            name="name"
+                            required
+                            className="mt-1 block w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black"
+                        />
+                    </div>
 
-				<h2 className='text-3xl font-semibold tracking-tighh mt-8 mb-4'>
-					¡No esperes más y compra tu celular en CelularesBaratos!
-				</h2>
+                    <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-white">
+                            Correo Electrónico <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            id="email"
+                            type="email"
+                            name="email"
+                            required
+                            className="mt-1 block w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black"
+                        />
+                        <ValidationError 
+                            prefix="Email" 
+                            field="email" 
+                            errors={state.errors} 
+                            className="text-red-600 text-sm mt-1" 
+                        />
+                    </div>
 
-				<p>
-					Para más información, no dudes en ponerte en contacto con
-					nosotros, a través de nuestro correo electrónico:
-					<a href='mailto:correo@celularesbaratos.com'>
-						correo@celularesbaratos.com
-					</a>{' '}
-					o llamado al <a href='tel:333333333'>3333333333</a>
-				</p>
-			</div>
-		</div>
-	);
+                    <div>
+                        <label htmlFor="phone" className="block text-sm font-medium text-white">
+                            Teléfono <span className="text-gray-500 font-normal">(opcional)</span>
+                        </label>
+                        <input
+                            id="phone"
+                            type="tel"
+                            name="phone"
+                            className="mt-1 block w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black"
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="message" className="block text-sm font-medium text-white">
+                            Mensaje <span className="text-red-500">*</span>
+                        </label>
+                        <textarea
+                            id="message"
+                            name="message"
+                            required
+                            rows={5}
+                            className="mt-1 block w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black"
+                        ></textarea>
+                        <ValidationError 
+                            prefix="Message" 
+                            field="message" 
+                            errors={state.errors} 
+                            className="text-red-600 text-sm mt-1" 
+                        />
+                    </div>
+
+                    <div>
+                        <button
+                            type="submit"
+                            disabled={state.submitting}
+                            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-800 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 disabled:bg-gray-400"
+                        >
+                            {state.submitting ? 'Enviando...' : 'Enviar'}
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            
+        </div>
+    );
 };
