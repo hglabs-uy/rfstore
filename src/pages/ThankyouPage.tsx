@@ -53,14 +53,14 @@ export const ThankyouPage = () => {
 					<h3 className='font-medium'>Tu pedido está confirmado</h3>
 
 					<p className='text-sm'>
-						Gracias por realizar tu compra en Celularesbaratos. Para
+						Gracias por realizar tu compra en RF STORE. Para
 						realizar la transferencia te compartimos los siguientes
 						datos
 					</p>
 
 					<div className='space-y-0.5 text-sm'>
 						<p>BANCO PICHINCHA</p>
-						<p>Razón Social: CelularesBaratos</p>
+						<p>Razón Social: RFSTORE</p>
 						<p>RUC: 123456789000</p>
 						<p>Tipo de cuenta: Corriente</p>
 						<p>Número de cuenta: 1234567890</p>
@@ -68,7 +68,7 @@ export const ThankyouPage = () => {
 
 					<p className='text-sm'>
 						Una vez realizada la transferencia, comparte tu
-						comprobante a ventas@celularesbaratos.com para procesarla
+						comprobante a ventas@rfstore.com para procesarla
 						y hacerte la entrega de tu dispositivo a domicilio.
 					</p>
 				</div>

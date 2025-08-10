@@ -15,12 +15,12 @@ export const navbarLinks = [
 	},
 	{
 		id: 2,
-		title: 'Celulares',
+		title: 'Tienda',
 		href: '/celulares',
 	},
 	{
 		id: 3,
-		title: 'Sobre Nosotros',
+		title: 'Contacto',
 		href: '/nosotros',
 	},
 ];

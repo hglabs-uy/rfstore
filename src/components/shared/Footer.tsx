@@ -55,7 +55,7 @@ export const Footer = () => {
 				</p>
 
 				<p className='text-xs leading-6'>
-					No te pierdas las novedades que CelularesBaratos tiene para
+					No te pierdas las novedades que RF STORE tiene para
 					ti.
 				</p>
 
