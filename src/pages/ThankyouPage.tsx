@@ -34,8 +34,8 @@ export const ThankyouPage = () => {
 					className='text-4xl font-bold self-center tracking-tighter transition-all md:text-5xl'
 				>
 					<p>
-						Celulares
-						<span className='text-cyan-600'>Baratos</span>
+						RF
+						<span className='text-cyan-600'>STORE</span>
 					</p>
 				</Link>
 			</header>
