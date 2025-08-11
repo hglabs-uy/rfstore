@@ -7,7 +7,7 @@ export const AboutPage = () => {
         return (
             <div className='text-center p-10 max-w-2xl mx-auto'>
                 <h2 className='text-2xl font-semibold text-green-600'>¡Gracias por tu mensaje!</h2>
-                <p className='text-white mt-2'>Nos pondremos en contacto contigo pronto.</p>
+                <p className='text-gray-950 mt-2'>Nos pondremos en contacto contigo pronto.</p>
             </div>
         );
     }
@@ -18,10 +18,10 @@ export const AboutPage = () => {
                 Contacto
             </h1>
 
-            <div className="w-full p-6 md:p-8 border border-gray-200 rounded-lg bg-slate-500">
+            <div className="w-full p-6 md:p-8 border rounded-lg bg-slate-100 shadow-md shadow-slate-700">
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-white">
+                        <label htmlFor="name" className="block text-sm font-medium text-black">
                             Nombre Completo o Empresa <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -34,7 +34,7 @@ export const AboutPage = () => {
                     </div>
 
                     <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-white">
+                        <label htmlFor="email" className="block text-sm font-medium text-black">
                             Correo Electrónico <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -53,7 +53,7 @@ export const AboutPage = () => {
                     </div>
 
                     <div>
-                        <label htmlFor="phone" className="block text-sm font-medium text-white">
+                        <label htmlFor="phone" className="block text-sm font-medium text-black">
                             Teléfono <span className="text-gray-500 font-normal">(opcional)</span>
                         </label>
                         <input
@@ -65,7 +65,7 @@ export const AboutPage = () => {
                     </div>
 
                     <div>
-                        <label htmlFor="message" className="block text-sm font-medium text-white">
+                        <label htmlFor="message" className="block text-sm font-medium text-black">
                             Mensaje <span className="text-red-500">*</span>
                         </label>
                         <textarea
@@ -87,7 +87,7 @@ export const AboutPage = () => {
                         <button
                             type="submit"
                             disabled={state.submitting}
-                            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-800 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 disabled:bg-gray-400"
+                            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-900 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 disabled:bg-gray-400"
                         >
                             {state.submitting ? 'Enviando...' : 'Enviar'}
                         </button>

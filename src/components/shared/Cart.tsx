@@ -45,7 +45,7 @@ export const Cart = () => {
 							className='w-full bg-black text-white py-3.5 rounded-full flex items-center justify-center gap-3'
 						>
 							<RiSecurePaymentLine size={24} />
-							Continuar con la compra
+							Continuar con la Cotización 
 						</Link>
 
 						<button

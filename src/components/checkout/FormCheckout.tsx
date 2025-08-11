@@ -58,7 +58,7 @@ export const FormCheckout = () => {
 	return (
 		<div>
 			<form className='flex flex-col gap-6' onSubmit={onSubmit}>
-				<div className='flex flex-col gap-3'>
+				{/* <div className='flex flex-col gap-3'>
 					<h3 className='text-lg font-semibold tracking-normal'>
 						Entrega
 					</h3>
@@ -104,18 +104,18 @@ export const FormCheckout = () => {
 					>
 						<option value='Ecuador'>Ecuador</option>
 					</select>
-				</div>
+				</div> */}
 
-				<div className='flex flex-col gap-3'>
+				{/* <div className='flex flex-col gap-3'>
 					<p className='text-sm font-medium'>Métodos de envío</p>
 
 					<div className='flex justify-between items-center text-sm border border-slate-600 bg-stone-100 py-4 rounded-md px-6'>
 						<span className='font-normal'>Standard</span>
 						<span className='font-semibold'>Gratis</span>
 					</div>
-				</div>
+				</div> */}
 
-				<div className='flex flex-col'>
+				{/* <div className='flex flex-col'>
 					<div className='flex justify-between items-center text-sm border border-slate-600 bg-stone-100 py-4 rounded-ss-md rounded-se-md px-6'>
 						<span>Depósito Bancario</span>
 					</div>
@@ -132,7 +132,8 @@ export const FormCheckout = () => {
 							haya finalizado la compra
 						</p>
 					</div>
-				</div>
+				</div> */}
+				
 
 				<div className='flex flex-col gap-6'>
 					<h3 className='font-semibold text-3xl'>
@@ -146,7 +147,7 @@ export const FormCheckout = () => {
 					type='submit'
 					className='bg-black text-white py-3.5 font-bold tracking-wide rounded-md mt-2'
 				>
-					Finalizar Pedido
+					Solicitar Cotización
 				</button>
 			</form>
 		</div>
