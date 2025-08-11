@@ -38,7 +38,7 @@ export const RegisterPage = () => {
 	if (session) return <Navigate to='/' />;
 
 	return (
-		<div className='h-full flex flex-col items-center mt-12 gap-5'>
+		<div className='flex flex-col items-center h-full gap-5 mt-12'>
 			<h1 className='text-4xl font-bold capitalize'>Regístrate</h1>
 
 			<p className='text-sm font-medium'>
@@ -46,7 +46,7 @@ export const RegisterPage = () => {
 			</p>
 
 			{isPending ? (
-				<div className='w-full h-full flex justify-center mt-20'>
+				<div className='flex justify-center w-full h-full mt-20'>
 					<LuLoader2 className='animate-spin' size={60} />
 				</div>
 			) : (
@@ -58,7 +58,7 @@ export const RegisterPage = () => {
 						<input
 							type='text'
 							placeholder='Nombre Completo'
-							className='border border-slate-200 text-black px-5 py-4 placeholder:text-black text-sm rounded-full w-full'
+							className='w-full px-5 py-4 text-sm text-black border rounded-full border-slate-200 placeholder:text-black'
 							{...register('fullName')}
 						/>
 						{errors.fullName && (
@@ -70,7 +70,7 @@ export const RegisterPage = () => {
 						<input
 							type='text'
 							placeholder='Celular'
-							className='border border-slate-200 text-black px-5 py-4 placeholder:text-black text-sm rounded-full w-full'
+							className='w-full px-5 py-4 text-sm text-black border rounded-full border-slate-200 placeholder:text-black'
 							{...register('phone')}
 						/>
 						{errors.phone && (
@@ -80,7 +80,7 @@ export const RegisterPage = () => {
 						<input
 							type='email'
 							placeholder='Ingresa tu correo electrónico'
-							className='border border-slate-200 text-black px-5 py-4 placeholder:text-black text-sm rounded-full w-full'
+							className='w-full px-5 py-4 text-sm text-black border rounded-full border-slate-200 placeholder:text-black'
 							{...register('email')}
 						/>
 						{errors.email && (
@@ -90,7 +90,7 @@ export const RegisterPage = () => {
 						<input
 							type='password'
 							placeholder='Ingresa tu contraseña'
-							className='border border-slate-200 text-black px-5 py-4 placeholder:text-black text-sm rounded-full w-full'
+							className='w-full px-5 py-4 text-sm text-black border rounded-full border-slate-200 placeholder:text-black'
 							{...register('password')}
 						/>
 						{errors.password && (
@@ -99,14 +99,14 @@ export const RegisterPage = () => {
 							</p>
 						)}
 
-						<button className='bg-black text-white uppercase font-semibold tracking-widest text-xs py-4 rounded-full mt-5 w-full'>
+						<button className='w-full py-4 mt-5 text-xs font-semibold tracking-widest text-white uppercase bg-black rounded-full'>
 							Registrarme
 						</button>
 					</form>
 
 					<p className='text-sm text-stone-800'>
 						¿Ya tienes una cuenta?
-						<Link to='/registro' className='underline ml-2'>
+						<Link to='/login' className='ml-2 underline'>
 							Inicia sesión
 						</Link>
 					</p>

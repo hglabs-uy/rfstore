@@ -5,8 +5,8 @@ import { useLogin, useUser } from '../hooks';
 import { Loader } from '../components/shared/Loader';
 
 export const LoginPage = () => {
-	const [email, setEmail] = useState('bdj04113@dcobe.com');
-	const [password, setPassword] = useState('Abc123');
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 
 	const { mutate, isPending } = useLogin();
 	const { session, isLoading } = useUser();
@@ -22,7 +22,7 @@ export const LoginPage = () => {
 	if (session) return <Navigate to='/' />;
 
 	return (
-		<div className='h-full flex flex-col items-center mt-12 gap-5'>
+		<div className='flex flex-col items-center h-full gap-5 mt-12'>
 			<h1 className='text-4xl font-bold capitalize'>
 				Iniciar sesión
 			</h1>
@@ -32,7 +32,7 @@ export const LoginPage = () => {
 			</p>
 
 			{isPending ? (
-				<div className='w-full h-full flex justify-center mt-20'>
+				<div className='flex justify-center w-full h-full mt-20'>
 					<LuLoader2 className='animate-spin' size={60} />
 				</div>
 			) : (
@@ -44,7 +44,7 @@ export const LoginPage = () => {
 						<input
 							type='email'
 							placeholder='Ingresa tu correo electrónico'
-							className='border border-slate-200 text-black px-5 py-4 placeholder:text-black text-sm rounded-full w-full'
+							className='w-full px-5 py-4 text-sm text-black border rounded-full border-slate-200 placeholder:text-black'
 							value={email}
 							onChange={e => setEmail(e.target.value)}
 						/>
@@ -52,19 +52,19 @@ export const LoginPage = () => {
 						<input
 							type='password'
 							placeholder='Ingresa tu contraseña'
-							className='border border-slate-200 text-black px-5 py-4 placeholder:text-black text-sm rounded-full w-full'
+							className='w-full px-5 py-4 text-sm text-black border rounded-full border-slate-200 placeholder:text-black'
 							value={password}
 							onChange={e => setPassword(e.target.value)}
 						/>
 
-						<button className='bg-black text-white uppercase font-semibold tracking-widest text-xs py-4 rounded-full mt-5 w-full'>
+						<button className='w-full py-4 mt-5 text-xs font-semibold tracking-widest text-white uppercase bg-black rounded-full'>
 							Iniciar sesión
 						</button>
 					</form>
 
 					<p className='text-sm text-stone-800'>
 						¿No tienes una cuenta?
-						<Link to='/registro' className='underline ml-2'>
+						<Link to='/registro' className='ml-2 underline'>
 							Regístrate
 						</Link>
 					</p>
