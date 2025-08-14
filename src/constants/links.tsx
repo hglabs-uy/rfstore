@@ -3,8 +3,7 @@ import {
 	FaCartShopping,
 	FaInstagram,
 	FaLinkedin,
-	FaTiktok,
-	FaXTwitter,
+	FaFacebookF,
 } from 'react-icons/fa6';
 
 export const navbarLinks = [
@@ -34,21 +33,15 @@ export const socialLinks = [
 	},
 	{
 		id: 2,
-		title: 'Twitter',
+		title: 'Facebook',
 		href: 'https://www.twitter.com',
-		icon: <FaXTwitter />,
+		icon: <FaFacebookF />,
 	},
 	{
 		id: 3,
 		title: 'Instagram',
 		href: 'https://www.instagram.com/rfstore.uy/',
 		icon: <FaInstagram />,
-	},
-	{
-		id: 4,
-		title: 'Tiktok',
-		href: 'https://www.tiktok.com',
-		icon: <FaTiktok />,
 	},
 ];
 

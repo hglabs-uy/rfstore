@@ -4,6 +4,7 @@ import { ContainerFilter } from '../components/products/ContainerFilter';
 import { prepareProducts } from '../helpers';
 import { useFilteredProducts } from '../hooks';
 import { Pagination } from '../components/shared/Pagination';
+import WhatsAppButton from '../components/shared/WhatsAppButton'
 
 export const CellPhonesPage = () => {
 	const [page, setPage] = useState(1);
@@ -22,7 +23,7 @@ export const CellPhonesPage = () => {
 
 	return (
 		<>
-			<h1 className='text-5xl font-semibold text-center mb-12'>
+			<h1 className='mb-12 text-5xl font-semibold text-center'>
 				Tienda
 			</h1>
 
@@ -38,7 +39,7 @@ export const CellPhonesPage = () => {
 						<p className='text-2xl'>Cargando...</p>
 					</div>
 				) : (
-					<div className='col-span-2 lg:col-span-2 xl:col-span-4 flex flex-col gap-12'>
+					<div className='flex flex-col col-span-2 gap-12 lg:col-span-2 xl:col-span-4'>
 						<div className='grid grid-cols-2 gap-3 gap-y-10 xl:grid-cols-4'>
 							{preparedProducts.map(product => (
 								<CardProduct
@@ -62,6 +63,8 @@ export const CellPhonesPage = () => {
 					</div>
 				)}
 			</div>
+
+			<WhatsAppButton />
 		</>
 	);
 };

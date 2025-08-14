@@ -4,7 +4,7 @@ import { socialLinks } from '../../constants/links';
 
 export const Footer = () => {
 	return (
-		<footer className='py-16 bg-gray-950 px-12 flex justify-between gap-10 text-slate-200 text-sm flex-wrap mt-10 md:flex-nowrap'>
+		<footer className='flex flex-wrap justify-between gap-10 px-12 py-16 mt-10 text-sm bg-gray-950 text-slate-200 md:flex-nowrap'>
 			<Link
 				to='/'
 				className={`text-2xl font-bold tracking-tighter transition-all text-white flex-1`}
@@ -12,19 +12,19 @@ export const Footer = () => {
 				RF STORE
 			</Link>
 
-			<div className='flex flex-col gap-4 flex-1'>
-				<p className='font-semibold uppercase tracking-tighter'>
+			<div className='flex flex-col flex-1 gap-4'>
+				<p className='font-semibold tracking-tighter uppercase'>
 					Suscríbete
 				</p>
 				<p className='text-xs font-medium'>
 					Recibe promociones exclusivas
 				</p>
 
-				<div className='border border-gray-800 flex items-center gap-2 px-3 py-2 rounded-full'>
+				<div className='flex items-center gap-2 px-3 py-2 border border-gray-800 rounded-full'>
 					<input
 						type='email'
 						placeholder='Correo Electrónico'
-						className='pl-2 bg-gray-950 text-slate-200 w-full focus:outline-none'
+						className='w-full pl-2 bg-gray-950 text-slate-200 focus:outline-none'
 					/>
 
 					<button className='text-slate-200'>
@@ -33,8 +33,8 @@ export const Footer = () => {
 				</div>
 			</div>
 
-			<div className='flex flex-col gap-4 flex-1'>
-				<p className='font-semibold uppercase tracking-tighter'>
+			<div className='flex flex-col flex-1 gap-4'>
+				<p className='font-semibold tracking-tighter uppercase'>
 					Políticas
 				</p>
 
@@ -49,8 +49,8 @@ export const Footer = () => {
 				</nav>
 			</div>
 
-			<div className='flex flex-col gap-4 flex-1'>
-				<p className='font-semibold uppercase tracking-tighter'>
+			<div className='flex flex-col flex-1 gap-4'>
+				<p className='font-semibold tracking-tighter uppercase'>
 					Síguenos
 				</p>
 
@@ -66,7 +66,7 @@ export const Footer = () => {
 							href={link.href}
 							target='_blank'
 							rel='noreferrer'
-							className='text-slate-300 border border-gray-8000 w-full h-full py-3.5 flex items-center justify-center transition-all hover:bg-white hover:text-gray-950'
+							className='flex justify-center gap-2 px-10 py-3 transition-all border border-gray-800 itemsflex gap-2-center text-slate-300 hover:bg-white hover:text-gray-950'
 						>
 							{link.icon}
 						</a>

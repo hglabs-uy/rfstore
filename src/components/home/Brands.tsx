@@ -1,47 +1,24 @@
 const brands = [
-	{
-		image: '/img/brands/brother.png',
-		alt: 'Apple',
-	},
-	{
-		image: '/img/brands/hp.png',
-		alt: 'Samsung',
-	},
-	{
-		image: '/img/brands/intel.png',
-		alt: 'Xiaomi',
-	},
-	{
-		image: '/img/brands/logitech.png',
-		alt: 'Realme',
-	},
-	{
-		image: '/img/brands/mikrotik.png',
-		alt: 'Huawei',
-	},
-
-	{
-		image: '/img/brands/samsung.png',
-		alt: 'Honor',
-	},
+	{ image: "/img/brands/logitech.png", alt: "Logitech", size: "w-20" },
+	{ image: "/img/brands/samsung.png", alt: "Samsung", size: "w-20" },
+  { image: "/img/brands/brother.png", alt: "Apple", size: "w-25" },
+  { image: "/img/brands/intel.png", alt: "Xiaomi", size: "w-24" },
+  { image: "/img/brands/mikrotik.png", alt: "Mikrotik", size: "w-24" },
+  { image: "/img/brands/hp.png", alt: "Samsung", size: "w-20" },
 ];
 
 export const Brands = () => {
-	return (
-		<div className='flex flex-col items-center gap-3 pt-16 pb-12'>
-			<h2 className='font-bold text-2xl'>Marcas con las que trabajamos</h2>
-
-			<p className='w-2/3 text-center text-sm md:text-base'>
-				Tenemos lo más moderno en tecnología 
-			</p>
-
-			<div className='grid grid-cols-3 gap-6 mt-8 items-center md:grid-cols-6'>
-				{brands.map((brand, index) => (
-					<div key={index}>
-						<img src={brand.image} alt={brand.alt} />
-					</div>
-				))}
-			</div>
-		</div>
-	);
+  return (
+    <div className="grid items-center grid-cols-3 gap-6 mt-8 md:grid-cols-6">
+      {brands.map((brand, index) => (
+        <div key={index} className="flex justify-center">
+          <img
+            src={brand.image}
+            alt={brand.alt}
+            className={`${brand.size} h-auto object-contain opacity-80 hover:opacity-100 transition duration-200`}
+          />
+        </div>
+      ))}
+    </div>
+  );
 };

@@ -1,18 +1,18 @@
 export const Newsletter = () => {
 	return (
-		<div className='relative bg-gray-500 text-white py-20'>
+		<div className='relative py-20 text-white bg-gray-500'>
 			{/* IMAGEN DE FONDO */}
 			{/* <div
-				className='absolute inset-0 bg-cover bg-center opacity-70 h-full'
+				className='absolute inset-0 h-full bg-center bg-cover opacity-70'
 				style={{
 					backgroundImage: 'url(/img/background-newsletter.webp)',
 				}}
 			/> */}
 
 			{/* CONTENIDO DE NEWSLETTER */}
-			<div className='container z-10 relative p-5 md:p-0'>
+			<div className='container relative z-10 grid p-5 md:p-0 place-items-center'>
 				<div className='w-full text-black bg-white p-12 space-y-5 md:w-[50%] lg:w-[40%]'>
-					<p className='text-xs uppercase font-semibold'>
+					<p className='text-xs font-semibold uppercase'>
 						Suscríbete a nuestro boletín y recibe promociones
 						exclusivas
 					</p>
@@ -22,11 +22,11 @@ export const Newsletter = () => {
 					<form className='flex flex-col gap-5 xl:flex-row'>
 						<input
 							type='email'
-							className='border border-slate-200 focus:outline-none rounded-full py-3 px-5 w-full text-xs font-medium'
+							className='w-full px-5 py-3 text-xs font-medium border rounded-full border-slate-200 focus:outline-none'
 							placeholder='Correo Electrónico'
 						/>
 
-						<button className='bg-black text-white font-semibold rounded-full uppercase tracking-wider py-3 text-xs xl:px-5'>
+						<button className='py-3 text-xs font-semibold tracking-wider text-white uppercase bg-black rounded-full xl:px-5'>
 							Suscribirme
 						</button>
 					</form>

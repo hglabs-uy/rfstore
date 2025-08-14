@@ -4,6 +4,7 @@ import { ProductGrid } from '../components/home/ProductGrid';
 import { ProductGridSkeleton } from '../components/skeletons/ProductGridSkeleton';
 import { prepareProducts } from '../helpers';
 import { useHomeProducts } from '../hooks';
+import WhatsAppButton from '../components/shared/WhatsAppButton'
 
 export const HomePage = () => {
 	const { recentProducts, popularProducts, isLoading } =
@@ -33,6 +34,8 @@ export const HomePage = () => {
 					products={preparedPopularProducts}
 				/>
 			)}
+
+			<WhatsAppButton />
 
 			<Brands />
 		</div>
