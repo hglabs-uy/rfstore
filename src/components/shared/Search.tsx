@@ -53,10 +53,10 @@ export const Search = () => {
 							<li className='py-2 group' key={product.id}>
 								<button
 									className='flex items-center gap-3'
-									onClick={() => {
-										navigate(`/celulares/${product.slug}`);
-										closeSheet();
-									}}
+																	onClick={() => {
+									navigate(`/producto/${product.slug}`);
+									closeSheet();
+								}}
 								>
 									<img
 										src={product.images[0]}

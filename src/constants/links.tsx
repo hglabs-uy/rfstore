@@ -15,7 +15,7 @@ export const navbarLinks = [
 	{
 		id: 2,
 		title: 'Tienda',
-		href: '/celulares',
+		href: '/tienda',
 	},
 	{
 		id: 3,

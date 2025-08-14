@@ -31,11 +31,11 @@ export const router = createBrowserRouter([
 				element: <HomePage />,
 			},
 			{
-				path: 'celulares',
+				path: 'tienda',
 				element: <CellPhonesPage />,
 			},
 			{
-				path: 'celulares/:slug',
+				path: 'producto/:slug',
 				element: <CellPhonePage />,
 			},
 			{

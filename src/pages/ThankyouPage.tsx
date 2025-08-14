@@ -160,7 +160,7 @@ export const ThankyouPage = () => {
 					</p>
 
 					<Link
-						to='/celulares'
+						to='/tienda'
 						className='text-white bg-black py-4 text-sm rounded-md px-5 tracking-tight font-semibold'
 					>
 						Seguir comprando
