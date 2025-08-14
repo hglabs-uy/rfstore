@@ -3,6 +3,7 @@ import { useCreateOrder } from '../../hooks';
 import { useCartStore } from '../../store/cart.store';
 import { ImSpinner2 } from 'react-icons/im';
 import toast from 'react-hot-toast';
+import { ItemsCheckout } from './ItemsCheckout';
 
 const FORMSPREE_ID = 'mvgqddop';
 
@@ -130,13 +131,9 @@ export const FormCheckout = () => {
 					</div>
 				</div>
 
-				<div className='flex flex-col gap-6'>
-					<h3 className='font-semibold text-3xl'>
-						Resumen del pedido
-					</h3>
-
-					{/* El resumen del carrito se renderiza en el panel derecho para desktop
-					   y aquí se mantiene el botón principal */}
+				{/* Resumen (solo mobile) */}
+				<div className='md:hidden'>
+					<ItemsCheckout />
 				</div>
 
 				<button
