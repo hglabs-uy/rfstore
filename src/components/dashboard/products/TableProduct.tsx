@@ -55,8 +55,22 @@ export const TableProduct = () => {
 		setOpenMenuIndex(null);
 	};
 
-	if (!products || isLoading || !totalProducts || isPending)
-		return <Loader />;
+	if (isLoading || isPending) return <Loader />;
+
+	if (!products || products.length === 0) {
+		return (
+			<div className='flex flex-col flex-1 border border-gray-200 rounded-lg p-5 bg-white items-center justify-center gap-2'>
+				<h2 className='font-semibold text-lg'>No hay productos</h2>
+				<p className='text-sm text-gray-500'>Agrega tu primer producto para verlo aquí.</p>
+				<Link
+					to='/dashboard/productos/new'
+					className='bg-black text-white py-[6px] px-2 rounded-md text-sm font-semibold'
+				>
+					Agregar Producto
+				</Link>
+			</div>
+		);
+	}
 
 	return (
 		<div className='flex flex-col flex-1 border border-gray-200 rounded-lg p-5 bg-white'>

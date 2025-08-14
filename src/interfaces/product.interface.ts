@@ -16,22 +16,34 @@ export interface VariantProduct {
 	color_name: string;
 }
 
+export interface ProductBrand {
+	id: string;
+	name: string;
+}
+
+export interface ProductCategory {
+	id: string;
+	name: string;
+}
+
 export interface Product {
 	id: string;
 	name: string;
-	brand: string;
 	slug: string;
 	features: string[];
 	description: Json;
 	images: string[];
 	created_at: string;
 	variants: VariantProduct[];
+	brand_id: string;
+	category_id: string;
+	brand?: ProductBrand | null;
+	category?: ProductCategory | null;
 }
 
 export interface PreparedProducts {
 	id: string;
 	name: string;
-	brand: string;
 	slug: string;
 	features: string[];
 	description: Json;
@@ -43,16 +55,19 @@ export interface PreparedProducts {
 		color: string;
 	}[];
 	variants: VariantProduct[];
+	brandName?: string;
+	categoryName?: string;
 }
 
 export interface ProductInput {
 	name: string;
-	brand: string;
 	slug: string;
 	features: string[];
 	description: JSONContent;
 	images: File[];
 	variants: VariantInput[];
+	brandId: string;
+	categoryId: string;
 }
 
 export interface VariantInput {

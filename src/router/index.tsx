@@ -16,6 +16,7 @@ import {
 	DashboardProductSlugPage,
 	DashboardOrdersPage,
 	DashboardOrderPage,
+	DashboardTaxonomiesPage,
 } from '../pages';
 import { ClientLayout } from '../layouts/ClientLayout';
 import { DashboardLayout } from '../layouts/DashboardLayout';
@@ -104,6 +105,10 @@ export const router = createBrowserRouter([
 			{
 				path: 'ordenes/:id',
 				element: <DashboardOrderPage />,
+			},
+			{
+				path: 'taxonomias',
+				element: <DashboardTaxonomiesPage />,
 			},
 		],
 	},

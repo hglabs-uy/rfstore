@@ -23,6 +23,8 @@ export const ProductGrid = ({ title, products }: Props) => {
 						img={product.images[0]}
 						slug={product.slug}
 						variants={product.variants}
+						brandName={product.brandName}
+						categoryName={product.categoryName}
 					/>
 				))}
 			</div>
