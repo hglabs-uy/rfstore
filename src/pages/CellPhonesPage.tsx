@@ -9,6 +9,8 @@ export const CellPhonesPage = () => {
 	const [page, setPage] = useState(1);
 	const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
 	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+	const [priceMin, setPriceMin] = useState<number | undefined>(undefined);
+	const [priceMax, setPriceMax] = useState<number | undefined>(undefined);
 
 	const {
 		data: products = [],
@@ -18,6 +20,8 @@ export const CellPhonesPage = () => {
 		page,
 		brands: selectedBrands,
 		categories: selectedCategories,
+		priceMin,
+		priceMax,
 	});
 
 	const preparedProducts = prepareProducts(products);
@@ -35,6 +39,10 @@ export const CellPhonesPage = () => {
 					selectedBrands={selectedBrands}
 					selectedCategories={selectedCategories}
 					setSelectedCategories={setSelectedCategories}
+					priceMin={priceMin}
+					priceMax={priceMax}
+					setPriceMin={setPriceMin}
+					setPriceMax={setPriceMax}
 				/>
 
 				{isLoading ? (

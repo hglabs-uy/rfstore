@@ -29,10 +29,14 @@ export const getFilteredProducts = async ({
 	page = 1,
 	brands = [],
 	categories = [],
+	priceMin,
+	priceMax,
 }: {
 	page: number;
 	brands: string[];
 	categories?: string[];
+	priceMin?: number;
+	priceMax?: number;
 }) => {
 	const itemsPerPage = 10;
 	const from = (page - 1) * itemsPerPage;
@@ -58,7 +62,20 @@ export const getFilteredProducts = async ({
 		throw new Error(error.message);
 	}
 
-	return { data, count };
+	// Filtro por precio en el cliente: filtra por el precio mínimo de sus variantes
+	let filtered = data || [];
+	if (typeof priceMin === 'number' || typeof priceMax === 'number') {
+		filtered = filtered.filter(product => {
+			const prices = (product.variants || []).map(v => v.price);
+			if (prices.length === 0) return false;
+			const minPrice = Math.min(...prices);
+			if (typeof priceMin === 'number' && minPrice < priceMin) return false;
+			if (typeof priceMax === 'number' && minPrice > priceMax) return false;
+			return true;
+		});
+	}
+
+	return { data: filtered, count };
 };
 
 export const getRecentProducts = async () => {

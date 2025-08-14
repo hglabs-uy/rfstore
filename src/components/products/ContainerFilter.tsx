@@ -1,11 +1,16 @@
 import { Separator } from '../shared/Separator';
 import { useTaxonomies } from '../../hooks';
+import { useState, useEffect } from 'react';
 
 interface Props {
 	selectedBrands: string[];
 	setSelectedBrands: (brands: string[]) => void;
 	selectedCategories: string[];
 	setSelectedCategories: (categories: string[]) => void;
+	priceMin?: number;
+	priceMax?: number;
+	setPriceMin: (v?: number) => void;
+	setPriceMax: (v?: number) => void;
 }
 
 export const ContainerFilter = ({
@@ -13,8 +18,21 @@ export const ContainerFilter = ({
 	setSelectedBrands,
 	selectedCategories,
 	setSelectedCategories,
+	priceMin,
+	priceMax,
+	setPriceMin,
+	setPriceMax,
 }: Props) => {
 	const { brands, categories } = useTaxonomies();
+	const [localMin, setLocalMin] = useState<string>(priceMin?.toString() || '');
+	const [localMax, setLocalMax] = useState<string>(priceMax?.toString() || '');
+
+	useEffect(() => {
+		setPriceMin(localMin === '' ? undefined : Number(localMin));
+	}, [localMin, setPriceMin]);
+	useEffect(() => {
+		setPriceMax(localMax === '' ? undefined : Number(localMax));
+	}, [localMax, setPriceMax]);
 
 	const toggle = (list: string[], setList: (v: string[]) => void, id: string) => {
 		if (list.includes(id)) setList(list.filter(b => b !== id));
@@ -64,6 +82,27 @@ export const ContainerFilter = ({
 								</span>
 							</label>
 						))}
+					</div>
+				</div>
+
+				<div className='flex flex-col gap-2'>
+					<h3 className='text-lg font-medium text-black'>Precio</h3>
+					<div className='flex items-center gap-2'>
+						<input
+							type='number'
+							className='border border-gray-300 rounded-md p-2 w-24'
+							placeholder='Mín'
+							value={localMin}
+							onChange={e => setLocalMin(e.target.value)}
+						/>
+						<span>-</span>
+						<input
+							type='number'
+							className='border border-gray-300 rounded-md p-2 w-24'
+							placeholder='Máx'
+							value={localMax}
+							onChange={e => setLocalMax(e.target.value)}
+						/>
 					</div>
 				</div>
 			</div>

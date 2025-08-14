@@ -5,14 +5,18 @@ export const useFilteredProducts = ({
 	page,
 	brands,
 	categories,
+	priceMin,
+	priceMax,
 }: {
 	page: number;
 	brands: string[];
 	categories?: string[];
+	priceMin?: number;
+	priceMax?: number;
 }) => {
 	const { data, isLoading } = useQuery({
-		queryKey: ['filteredProducts', page, brands, categories],
-		queryFn: () => getFilteredProducts({ page, brands, categories }),
+		queryKey: ['filteredProducts', page, brands, categories, priceMin, priceMax],
+		queryFn: () => getFilteredProducts({ page, brands, categories, priceMin, priceMax }),
 		retry: false,
 	});
 
