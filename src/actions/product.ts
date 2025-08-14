@@ -13,7 +13,7 @@ export const getProducts = async (page: number) => {
 		count,
 	} = await supabase
 		.from('products')
-		.select('*, variants(*)', { count: 'exact' })
+		.select('*, variants(*), brand:brands(*), category:categories(*)', { count: 'exact' })
 		.order('created_at', { ascending: false })
 		.range(from, to);
 
@@ -28,9 +28,11 @@ export const getProducts = async (page: number) => {
 export const getFilteredProducts = async ({
 	page = 1,
 	brands = [],
+	categories = [],
 }: {
 	page: number;
 	brands: string[];
+	categories?: string[];
 }) => {
 	const itemsPerPage = 10;
 	const from = (page - 1) * itemsPerPage;
@@ -38,12 +40,15 @@ export const getFilteredProducts = async ({
 
 	let query = supabase
 		.from('products')
-		.select('*, variants(*)', { count: 'exact' })
+		.select('*, variants(*), brand:brands(*), category:categories(*)', { count: 'exact' })
 		.order('created_at', { ascending: false })
 		.range(from, to);
 
 	if (brands.length > 0) {
-		query = query.in('brand', brands);
+		query = query.in('brand_id', brands);
+	}
+	if (categories && categories.length > 0) {
+		query = query.in('category_id', categories);
 	}
 
 	const { data, error, count } = await query;
@@ -59,7 +64,7 @@ export const getFilteredProducts = async ({
 export const getRecentProducts = async () => {
 	const { data: products, error } = await supabase
 		.from('products')
-		.select('*, variants(*)')
+		.select('*, variants(*), brand:brands(*), category:categories(*)')
 		.order('created_at', { ascending: false })
 		.limit(4);
 
@@ -74,7 +79,7 @@ export const getRecentProducts = async () => {
 export const getRandomProducts = async () => {
 	const { data: products, error } = await supabase
 		.from('products')
-		.select('*, variants(*)')
+		.select('*, variants(*), brand:brands(*), category:categories(*)')
 		.limit(20);
 
 	if (error) {
@@ -93,7 +98,7 @@ export const getRandomProducts = async () => {
 export const getProductBySlug = async (slug: string) => {
 	const { data, error } = await supabase
 		.from('products')
-		.select('*, variants(*)')
+		.select('*, variants(*), brand:brands(*), category:categories(*)')
 		.eq('slug', slug)
 		.single();
 
@@ -108,7 +113,7 @@ export const getProductBySlug = async (slug: string) => {
 export const searchProducts = async (searchTerm: string) => {
 	const { data, error } = await supabase
 		.from('products')
-		.select('*, variants(*)')
+		.select('*, variants(*), brand:brands(*), category:categories(*)')
 		.ilike('name', `%${searchTerm}%`); //Buscar productos cuyo nombre contenga el término de búsqueda
 
 	if (error) {
@@ -129,11 +134,12 @@ export const createProduct = async (productInput: ProductInput) => {
 			.from('products')
 			.insert({
 				name: productInput.name,
-				brand: productInput.brand,
 				slug: productInput.slug,
 				features: productInput.features,
 				description: productInput.description,
 				images: [],
+				brand_id: productInput.brandId,
+				category_id: productInput.categoryId,
 			})
 			.select()
 			.single();
@@ -262,10 +268,11 @@ export const updateProduct = async (
 		.from('products')
 		.update({
 			name: productInput.name,
-			brand: productInput.brand,
 			slug: productInput.slug,
 			features: productInput.features,
 			description: productInput.description,
+			brand_id: productInput.brandId,
+			category_id: productInput.categoryId,
 		})
 		.eq('id', productId)
 		.select()
@@ -298,112 +305,69 @@ export const updateProduct = async (
 			console.log(deleteImagesError);
 			throw new Error(deleteImagesError.message);
 		} else {
-			console.log(`Imagenes eliminadas: ${filesToDelete.join(', ')}`);
+			console.log('Imágenes eliminadas con éxito:', filesToDelete);
 		}
 	}
 
-	// 3.4 Subir las nuevas imágenes y construir el array de imágenes actualizado
-	const uploadedImages = await Promise.all(
+	// 3.4 Subir las nuevas imágenes que son de tipo File
+	const newImages = await Promise.all(
 		validImages.map(async image => {
-			if (image instanceof File) {
-				// Si la imagen no es una URL (es un archivo), entonces subela al bucket
-				const { data, error } = await supabase.storage
+			if (typeof image === 'string') return image;
+
+			const { data, error } = await supabase.storage
+				.from('product-images')
+				.upload(`${folderName}/${productId}-${image.name}`, image);
+
+			if (error) throw new Error(error.message);
+
+			return `${
+				supabase.storage
 					.from('product-images')
-					.upload(`${folderName}/${productId}-${image.name}`, image);
-
-				if (error) throw new Error(error.message);
-
-				const imageUrl = supabase.storage
-					.from('product-images')
-					.getPublicUrl(data.path).data.publicUrl;
-
-				return imageUrl;
-			} else if (typeof image === 'string') {
-				return image;
-			} else {
-				throw new Error('Tipo de imagen no soportado');
-			}
+					.getPublicUrl(data.path).data.publicUrl
+			}`;
 		})
 	);
 
-	// 4. Actualizar el productos con las imagenes actualizadas
+	// 3.5 Actualizar el producto con las imágenes correctas
 	const { error: updateImagesError } = await supabase
 		.from('products')
-		.update({ images: uploadedImages })
+		.update({ images: newImages })
 		.eq('id', productId);
 
 	if (updateImagesError) throw new Error(updateImagesError.message);
 
-	// 5. Actualizar las variantes del producto
-	const existingVariants = productInput.variants.filter(v => v.id);
-	const newVariants = productInput.variants.filter(v => !v.id);
-
-	// 5.1 Modificar las variantes existentes
-	if (existingVariants.length > 0) {
-		const { error: updateVariantsError } = await supabase
-			.from('variants')
-			.upsert(
-				existingVariants.map(variant => ({
-					id: variant.id,
-					product_id: productId,
-					stock: variant.stock,
+	// 4. Actualizar o crear nuevas variantes
+	for (const variant of productInput.variants) {
+		if (variant.id) {
+			const { error: updateVariantError } = await supabase
+				.from('variants')
+				.update({
 					price: variant.price,
+					stock: variant.stock,
 					storage: variant.storage,
 					color: variant.color,
 					color_name: variant.colorName,
-				})),
-				{
-					onConflict: 'id',
-				}
-			);
+				})
+				.eq('id', variant.id);
 
-		if (updateVariantsError)
-			throw new Error(updateVariantsError.message);
-	}
-
-	// 5.2 Crear y guardar las nuevas variantes
-	let newVariantIds: string[] = [];
-
-	if (newVariants.length > 0) {
-		const { data, error: insertVariantsError } = await supabase
-			.from('variants')
-			.insert(
-				newVariants.map(variant => ({
+			if (updateVariantError)
+				throw new Error(updateVariantError.message);
+		} else {
+			const { error: createVariantError } = await supabase
+				.from('variants')
+				.insert({
 					product_id: productId,
-					stock: variant.stock,
 					price: variant.price,
+					stock: variant.stock,
 					storage: variant.storage,
 					color: variant.color,
 					color_name: variant.colorName,
-				}))
-			)
-			.select();
+				});
 
-		if (insertVariantsError)
-			throw new Error(insertVariantsError.message);
-
-		newVariantIds = data.map(variant => variant.id);
+			if (createVariantError)
+				throw new Error(createVariantError.message);
+		}
 	}
-
-	// 5.3 Combinar los IDs de las variantes existentes y las nuevas
-	const currentVariantIds = [
-		...existingVariants.map(v => v.id),
-		...newVariantIds,
-	];
-
-	// 5.4 Eliminar las variantes que no están en la lista de IDs
-	const { error: deleteVariantsError } = await supabase
-		.from('variants')
-		.delete()
-		.eq('product_id', productId)
-		.not(
-			'id',
-			'in',
-			`(${currentVariantIds ? currentVariantIds.join(',') : 0})` // (UIWE2030230-2230000, UIWE2030230-2230001, ...)
-		);
-
-	if (deleteVariantsError)
-		throw new Error(deleteVariantsError.message);
 
 	return updatedProduct;
 };

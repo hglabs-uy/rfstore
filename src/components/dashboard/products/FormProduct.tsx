@@ -18,6 +18,7 @@ import {
 	useCreateProduct,
 	useProduct,
 	useUpdateProduct,
+	useTaxonomies,
 } from '../../../hooks';
 import { Loader } from '../../shared/Loader';
 import { JSONContent } from '@tiptap/react';
@@ -44,6 +45,7 @@ export const FormProduct = ({ titleForm }: Props) => {
 	const { mutate: createProduct, isPending } = useCreateProduct();
 	const { mutate: updateProduct, isPending: isUpdatePending } =
 		useUpdateProduct(product?.id || '');
+	const { brands, categories } = useTaxonomies();
 
 	const navigate = useNavigate();
 
@@ -51,7 +53,8 @@ export const FormProduct = ({ titleForm }: Props) => {
 		if (product && !isLoading) {
 			setValue('name', product.name);
 			setValue('slug', product.slug);
-			setValue('brand', product.brand);
+			setValue('brandId', product.brand_id);
+			setValue('categoryId', product.category_id);
 			setValue(
 				'features',
 				product.features.map((f: string) => ({ value: f }))
@@ -78,22 +81,24 @@ export const FormProduct = ({ titleForm }: Props) => {
 		if (slug) {
 			updateProduct({
 				name: data.name,
-				brand: data.brand,
 				slug: data.slug,
 				variants: data.variants,
 				images: data.images,
 				description: data.description,
 				features,
+				brandId: data.brandId,
+				categoryId: data.categoryId,
 			});
 		} else {
 			createProduct({
 				name: data.name,
-				brand: data.brand,
 				slug: data.slug,
 				variants: data.variants,
 				images: data.images,
 				description: data.description,
 				features,
+				brandId: data.brandId,
+				categoryId: data.categoryId,
 			});
 		}
 	});
@@ -158,15 +163,47 @@ export const FormProduct = ({ titleForm }: Props) => {
 						errors={errors}
 					/>
 
-					<InputForm
-						type='text'
-						label='Marca'
-						name='brand'
-						placeholder='Apple'
-						register={register}
-						errors={errors}
-						required
-					/>
+					{/* Select Marca */}
+					<div className='flex flex-col gap-2'>
+						<label className='font-medium text-sm'>Marca</label>
+						<select
+							className='border border-gray-300 rounded-md p-2'
+							{...register('brandId')}
+						>
+							<option value=''>Seleccionar marca</option>
+							{brands.map(brand => (
+								<option key={brand.id} value={brand.id}>
+									{brand.name}
+								</option>
+							))}
+						</select>
+						{errors.brandId && (
+							<p className='text-red-500 text-xs'>
+								{errors.brandId.message as string}
+							</p>
+						)}
+					</div>
+
+					{/* Select Categoría */}
+					<div className='flex flex-col gap-2'>
+						<label className='font-medium text-sm'>Categoría</label>
+						<select
+							className='border border-gray-300 rounded-md p-2'
+							{...register('categoryId')}
+						>
+							<option value=''>Seleccionar categoría</option>
+							{categories.map(category => (
+								<option key={category.id} value={category.id}>
+									{category.name}
+								</option>
+							))}
+						</select>
+						{errors.categoryId && (
+							<p className='text-red-500 text-xs'>
+								{errors.categoryId.message as string}
+							</p>
+						)}
+					</div>
 				</SectionFormProduct>
 
 				<SectionFormProduct

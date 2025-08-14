@@ -8,6 +8,7 @@ import { Pagination } from '../components/shared/Pagination';
 export const CellPhonesPage = () => {
 	const [page, setPage] = useState(1);
 	const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
 	const {
 		data: products = [],
@@ -16,6 +17,7 @@ export const CellPhonesPage = () => {
 	} = useFilteredProducts({
 		page,
 		brands: selectedBrands,
+		categories: selectedCategories,
 	});
 
 	const preparedProducts = prepareProducts(products);
@@ -31,6 +33,8 @@ export const CellPhonesPage = () => {
 				<ContainerFilter
 					setSelectedBrands={setSelectedBrands}
 					selectedBrands={selectedBrands}
+					selectedCategories={selectedCategories}
+					setSelectedCategories={setSelectedCategories}
 				/>
 
 				{isLoading ? (

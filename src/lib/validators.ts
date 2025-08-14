@@ -64,11 +64,12 @@ const isContentEmpty = (value: JSONContent): boolean => {
 
 export const productSchema = z.object({
 	name: z.string().min(1, 'El nombre del producto es obligatorio'),
-	brand: z.string().min(1, 'La marca del producto es obligatoria'),
 	slug: z
 		.string()
 		.min(1, 'El slug del producto es obligatorio')
 		.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Slug inválido'),
+	brandId: z.string().min(1, 'La marca es obligatoria'),
+	categoryId: z.string().min(1, 'La categoría es obligatoria'),
 	features: z.array(
 		z.object({
 			value: z

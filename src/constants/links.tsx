@@ -65,4 +65,10 @@ export const dashboardLinks = [
 		href: '/dashboard/ordenes',
 		icon: <FaCartShopping size={25} />,
 	},
+	{
+		id: 3,
+		title: 'Taxonomías',
+		href: '/dashboard/taxonomias',
+		icon: <FaBoxOpen size={25} />,
+	},
 ];

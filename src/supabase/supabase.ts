@@ -172,9 +172,44 @@ export type Database = {
           },
         ]
       }
+      brands: {
+        Row: {
+          id: string
+          name: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
+      categories: {
+        Row: {
+          id: string
+          name: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
-          brand: string
           created_at: string
           description: Json
           features: string[]
@@ -182,9 +217,10 @@ export type Database = {
           images: string[]
           name: string
           slug: string
+          brand_id: string
+          category_id: string
         }
         Insert: {
-          brand: string
           created_at?: string
           description: Json
           features: string[]
@@ -192,9 +228,10 @@ export type Database = {
           images: string[]
           name: string
           slug: string
+          brand_id: string
+          category_id: string
         }
         Update: {
-          brand?: string
           created_at?: string
           description?: Json
           features?: string[]
@@ -202,8 +239,25 @@ export type Database = {
           images?: string[]
           name?: string
           slug?: string
+          brand_id?: string
+          category_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "products_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "brands"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {

@@ -14,6 +14,8 @@ interface Props {
 	slug: string;
 	colors: { name: string; color: string }[];
 	variants: VariantProduct[];
+	brandName?: string;
+	categoryName?: string;
 }
 
 export const CardProduct = ({
@@ -23,6 +25,8 @@ export const CardProduct = ({
 	slug,
 	colors,
 	variants,
+	brandName,
+	categoryName,
 }: Props) => {
 	const [activeColor, setActiveColor] = useState<{
 		name: string;
@@ -86,6 +90,11 @@ export const CardProduct = ({
 
 			<div className='flex flex-col gap-1 items-center'>
 				<p className='text-[15px] font-medium'>{name}</p>
+				<p className='text-[12px] text-slate-600'>
+					{brandName || ''}
+					{brandName && categoryName ? ' · ' : ''}
+					{categoryName || ''}
+				</p>
 				<p className='text-[15px] font-medium'>
 					{formatPrice(price)}
 				</p>
