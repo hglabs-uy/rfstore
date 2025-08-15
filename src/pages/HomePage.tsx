@@ -1,6 +1,7 @@
 import { ProductGrid } from '../components/home/ProductGrid';
 import { prepareProducts } from '../helpers';
 import { useHomeProducts } from '../hooks';
+import { Brands } from '../components/home/Brands';
 import WhatsAppButton from '../components/shared/WhatsAppButton'
 
 export const HomePage = () => {
