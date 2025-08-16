@@ -1,14 +1,16 @@
 import { useState } from 'react';
-import { useCreateOrder } from '../../hooks';
+import { useCreateOrder, useUser } from '../../hooks';
 import { useCartStore } from '../../store/cart.store';
 import { ImSpinner2 } from 'react-icons/im';
 import toast from 'react-hot-toast';
 import { ItemsCheckout } from './ItemsCheckout';
+import { Link } from 'react-router-dom';
 
 const FORMSPREE_ID = 'mvgqddop';
 
 export const FormCheckout = () => {
 	const { mutate: createOrder, isPending } = useCreateOrder();
+	const { session } = useUser();
 
 	const cleanCart = useCartStore(state => state.cleanCart);
 	const cartItems = useCartStore(state => state.items);
@@ -18,6 +20,7 @@ export const FormCheckout = () => {
 	const [phone, setPhone] = useState('');
 	const [message, setMessage] = useState('');
 	const [submitting, setSubmitting] = useState(false);
+	const [thanks, setThanks] = useState(false);
 
 	const onSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -32,7 +35,7 @@ export const FormCheckout = () => {
 			await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
 				method: 'POST',
 				headers: {
-					'Accept': 'application/json',
+					Accept: 'application/json',
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
@@ -44,31 +47,37 @@ export const FormCheckout = () => {
 				}),
 			});
 
-			// Crear la orden como hasta ahora
-			const orderInput = {
-				address: {
-					addressLine1: '',
-					addressLine2: '',
-					city: '',
-					state: '',
-					postalCode: '',
-					country: '',
-				},
-				cartItems: cartItems.map(item => ({
-					variantId: item.variantId,
-					quantity: item.quantity,
-					price: item.price,
-				})),
-				totalAmount,
-			};
-
 			toast.success('¡Gracias por elegirnos! Un agente se estará comunicando con usted a la brevedad.', { position: 'bottom-right' });
 
-			createOrder(orderInput, {
-				onSuccess: () => {
-					cleanCart();
-				},
-			});
+			if (session) {
+				// Crear la orden (solo si hay sesión)
+				const orderInput = {
+					address: {
+						addressLine1: '',
+						addressLine2: '',
+						city: '',
+						state: '',
+						postalCode: '',
+						country: '',
+					},
+					cartItems: cartItems.map(item => ({
+						variantId: item.variantId,
+						quantity: item.quantity,
+						price: item.price,
+					})),
+					totalAmount,
+				};
+
+				createOrder(orderInput, {
+					onSuccess: () => {
+						cleanCart();
+					},
+				});
+			} else {
+				// Usuario sin sesión: solo mostramos agradecimiento inline y limpiamos carrito
+				cleanCart();
+				setThanks(true);
+			}
 		} catch (err) {
 			toast.error('No se pudo enviar tu solicitud. Intenta nuevamente.');
 		} finally {
@@ -84,6 +93,18 @@ export const FormCheckout = () => {
 				<p className='text-sm font-medium'>
 					Estamos procesando tu pedido
 				</p>
+			</div>
+		);
+	}
+
+	if (thanks) {
+		return (
+			<div className='flex flex-col gap-6'>
+				<h3 className='text-2xl font-semibold'>¡Gracias por elegirnos!</h3>
+				<p className='text-sm'>Un agente se estará comunicando con usted a la brevedad.</p>
+				<Link to='/tienda' className='bg-black text-white py-3.5 font-bold tracking-wide rounded-md w-fit px-6'>
+					Seguir comprando
+				</Link>
 			</div>
 		);
 	}
