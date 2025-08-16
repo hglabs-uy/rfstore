@@ -6,10 +6,10 @@ import { useChangeStatusOrder } from '../../../hooks';
 const tableHeaders = ['Cliente', 'Fecha', 'Estado', 'Total'];
 
 const statusOptions = [
-	{ value: 'Pending', label: 'Pendiente' },
-	{ value: 'Paid', label: 'Pagado' },
-	{ value: 'Shipped', label: 'Enviado' },
-	{ value: 'Delivered', label: 'Entregado' },
+	{ value: 'Cotización', label: 'Cotización' },
+	{ value: 'Concretado', label: 'Concretado' },
+	{ value: 'Modificado', label: 'Modificado' },
+	{ value: 'Cancelado', label: 'Cancelado' },
 ];
 
 interface Props {
