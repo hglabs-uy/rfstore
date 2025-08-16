@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { LuLoader2 } from 'react-icons/lu';
-import { Link, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useLogin, useUser } from '../hooks';
 import { Loader } from '../components/shared/Loader';
 
@@ -61,13 +61,6 @@ export const LoginPage = () => {
 							Iniciar sesión
 						</button>
 					</form>
-
-					<p className='text-sm text-stone-800'>
-						¿No tienes una cuenta?
-						<Link to='/registro' className='ml-2 underline'>
-							Regístrate
-						</Link>
-					</p>
 				</>
 			)}
 		</div>
