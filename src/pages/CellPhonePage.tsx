@@ -174,9 +174,9 @@ export const CellPhonePage = () => {
 
 					<div className='flex gap-5 items-center'>
 						<span className='tracking-wide text-lg font-semibold'>
-							{formatPrice(
-								selectedVariant?.price || product.variants[0]?.price
-							)}
+						{` ${formatPrice(
+            				selectedVariant?.price || product.variants[0]?.price
+        				)} IVA incl. `}
 						</span>
 
 						<div className='relative'>
@@ -226,7 +226,7 @@ export const CellPhonePage = () => {
 					{/* OPCIONES DE ALMACENAMIENTO */}
 					<div className='flex flex-col gap-3'>
 						<p className='text-xs font-medium'>
-							Almacenamiento disponible
+							Almacenamiento / Procesador
 						</p>
 
 						{selectedColor && (

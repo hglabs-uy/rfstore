@@ -21,8 +21,8 @@ export const Sidebar = () => {
 						className={({ isActive }) =>
 							`flex items-center justify-center gap-3 pl-0 py-3 transition-all duration-300 rounded-md ${
 								isActive
-									? 'text-white bg-cyan-600'
-									: 'hover:text-white hover:bg-cyan-600'
+									? 'text-white bg-slate-600'
+									: 'hover:text-white hover:bg-slate-600'
 							} lg:pl-5 lg:justify-start`
 						}
 					>

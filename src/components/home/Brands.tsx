@@ -9,7 +9,7 @@ const brands = [
 
 export const Brands = () => {
   return (
-    <div className="grid items-center grid-cols-3 gap-6 mt-8 md:grid-cols-6">
+    <div className="grid items-center grid-cols-3 gap-6 mt-14 mb-52 md:grid-cols-6 ">
       {brands.map((brand, index) => (
         <div key={index} className="flex justify-center">
           <img

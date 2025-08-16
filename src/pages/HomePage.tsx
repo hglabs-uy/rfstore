@@ -13,23 +13,20 @@ export const HomePage = () => {
 
 	return (
 		<div className='space-y-10'>
-			{!isLoading && !isError && (
-				<ProductGrid
-					title='Nuevos Productos'
-					products={preparedRecentProducts}
-				/>
-			)}
+
+				<Brands />
+
 
 			{!isLoading && !isError && (
 				<ProductGrid
-					title='Productos Destacados'
+					title='Productos Destacados' 
 					products={preparedPopularProducts}
 				/>
 			)}
 
 			<WhatsAppButton />
 
-			<Brands />
+		
 		</div>
 	);
 };

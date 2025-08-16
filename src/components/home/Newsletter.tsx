@@ -1,6 +1,6 @@
 export const Newsletter = () => {
 	return (
-		<div className='relative py-20 text-white bg-gray-500'>
+		<div className='relative py-20 text-white bg-slate-400 shadow-xl'>
 			{/* IMAGEN DE FONDO */}
 			{/* <div
 				className='absolute inset-0 h-full bg-center bg-cover opacity-70'

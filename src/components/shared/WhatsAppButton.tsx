@@ -1,8 +1,8 @@
 import { FaWhatsapp } from "react-icons/fa";
 
 export default function WhatsAppButton() {
-  const phoneNumber = "59891234567"; // número con código de país
-  const message = "Hola, me gustaría consultar sobre sus productos.";
+  const phoneNumber = "59894116299"; 
+  const message = "Hola, me gustaría consultar sobre sus productos que vi desde la web de RFSTORE.";
 
   return (
     <a

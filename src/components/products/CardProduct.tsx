@@ -66,7 +66,7 @@ export const CardProduct = ({
 	const stock = selectedVariant?.stock || 0;
 
 	return (
-		<div className='flex flex-col gap-6 relative'>
+		<div className='flex flex-col gap-6 relative m-10'>
 			<Link
 				to={`/producto/${slug}`}
 				className='flex relative group overflow-hidden '
@@ -79,9 +79,9 @@ export const CardProduct = ({
 					/>
 				</div>
 
-				<button
-					className='bg-slate-700 text-white border border-slate-200 absolute w-full bottom-0 py-3 rounded-3xl flex items-center justify-center gap-1 text-sm font-medium hover:bg-stone-400 translate-y-[100%] transition-all duration-300 group-hover:translate-y-0'
-					onClick={handleAddClick}
+			<button
+className='bg-slate-700 text-white border border-slate-200 absolute w-full bottom-0 py-3 rounded-3xl flex items-center justify-center gap-1 text-sm font-medium hover:bg-stone-400 transition-all duration-300 translate-y-0'
+onClick={handleAddClick}
 				>
 					<FiPlus />
 					Añadir
@@ -97,6 +97,7 @@ export const CardProduct = ({
 				</p>
 				<p className='text-[15px] font-medium'>
 					{formatPrice(price)}
+					<span className='text-xs text-slate-500'> IVA INCL.</span>
 				</p>
 
 				<div className='flex gap-3'>
