@@ -266,7 +266,7 @@ export const deleteProduct = async (productId: string) => {
 
         // 6. Eliminar las imágenes del bucket
         if (productImages.images.length > 0) {
-            const folderName = productId;
+            //const folderName = productId;
             const paths = productImages.images.map(image => extractFilePath(image));
 
             const { error: storageError } = await supabase.storage
