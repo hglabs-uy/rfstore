@@ -5,10 +5,9 @@ import { Brands } from '../components/home/Brands';
 import WhatsAppButton from '../components/shared/WhatsAppButton'
 
 export const HomePage = () => {
-	const { recentProducts, popularProducts, isLoading, isError } =
+	const { popularProducts, isLoading, isError } =
 		useHomeProducts();
 
-	const preparedRecentProducts = prepareProducts(recentProducts);
 	const preparedPopularProducts = prepareProducts(popularProducts);
 
 	return (
