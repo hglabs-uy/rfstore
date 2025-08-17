@@ -34,7 +34,7 @@ export const socialLinks = [
 	{
 		id: 2,
 		title: 'Facebook',
-		href: 'https://www.twitter.com',
+		href: 'https://www.facebook.com/people/RF-Store/61568113774015/?_rdr',
 		icon: <FaFacebookF />,
 	},
 	{

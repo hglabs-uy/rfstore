@@ -134,7 +134,7 @@ export const AboutPage = () => {
                 Escribinos y te respondemos más rápido por WhatsApp.
               </p>
               <a
-                href="https://wa.me/59899123456"
+                href="https://wa.me/59894116299"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2 font-medium text-white rounded-md bg-emerald-600 hover:bg-emerald-500"
@@ -147,9 +147,8 @@ export const AboutPage = () => {
             <div className="p-6 border border-gray-800 rounded-lg bg-gray-900/50">
               <h3 className="mb-3 text-lg font-semibold">Horario de atención</h3>
               <ul className="space-y-1 text-gray-300">
-                <li>Lunes a Viernes: 9:00 – 18:00</li>
-                <li>Sábados: 9:00 – 13:00</li>
-                <li>Domingos y feriados: cerrado</li>
+                <li>Lunes a Viernes: 8:00 – 20:00</li>
+                <li>Sábados: 10:00 – 17:00</li>
               </ul>
             </div>
 
@@ -161,7 +160,7 @@ export const AboutPage = () => {
                   <FaEnvelope /> contacto@rfstore.com
                 </li>
                 <li className="flex items-center gap-2">
-                  <FaPhoneAlt /> +598 99 123 456
+                  <FaPhoneAlt /> +598 94 116 299
                 </li>
                 <li className="flex items-center gap-2">
                   <FaMapMarkerAlt /> Montevideo, Uruguay
