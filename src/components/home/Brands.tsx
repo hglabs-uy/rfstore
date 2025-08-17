@@ -1,24 +1,42 @@
+// Logos más grandes (alturas ampliadas)
 const brands = [
-	{ image: "/img/brands/logitech.png", alt: "Logitech", size: "w-20" },
-	{ image: "/img/brands/samsung.png", alt: "Samsung", size: "w-20" },
-  { image: "/img/brands/brother.png", alt: "Apple", size: "w-25" },
-  { image: "/img/brands/intel.png", alt: "Xiaomi", size: "w-24" },
-  { image: "/img/brands/mikrotik.png", alt: "Mikrotik", size: "w-24" },
-  { image: "/img/brands/hp.png", alt: "Samsung", size: "w-20" },
+  { image: "/img/brands/logitech.png", alt: "Logitech", size: "h-24 md:h-28" },
+  { image: "/img/brands/samsung.png", alt: "Samsung", size: "h-24 md:h-28" },
+  { image: "/img/brands/brother.png", alt: "Brother", size: "h-28 md:h-32" }, // wordmark fino => más alto
+  { image: "/img/brands/intel.png", alt: "Intel", size: "h-28 md:h-32" }, // wordmark fino => más alto
+  { image: "/img/brands/mikrotik.png", alt: "MikroTik", size: "h-24 md:h-28" },
+  { image: "/img/brands/hp.png", alt: "HP", size: "h-24 md:h-28" },
+  { image: "/img/brands/asus.svg", alt: "ASUS", size: "h-24 md:h-28" },
+  { image: "/img/brands/dell.svg", alt: "Dell", size: "h-24 md:h-28" },
+  { image: "/img/brands/hikvision.svg", alt: "Hikvision", size: "h-24 md:h-28",},
+  { image: "/img/brands/microsoft.svg", alt: "Microsoft", size: "h-24 md:h-28",},
+  { image: "/img/brands/lenovo.svg", alt: "Lenovo", size: "h-24 md:h-28" },
+  { image: "/img/brands/tp-link.svg", alt: "TP-Link", size: "h-24 md:h-28" },
+  { image: "/img/brands/ubiquiti-seeklogo.png", alt: "Ubiquiti", size: "h-24 md:h-28" },
 ];
 
 export const Brands = () => {
   return (
-    <div className="grid items-center grid-cols-3 gap-6 mt-14 mb-52 md:grid-cols-6 ">
-      {brands.map((brand, index) => (
-        <div key={index} className="flex justify-center">
-          <img
-            src={brand.image}
-            alt={brand.alt}
-            className={`${brand.size} h-auto object-contain opacity-80 hover:opacity-100 transition duration-200`}
-          />
+    <section className="w-full bg-white">
+      <div className="container px-4 mx-auto">
+        <div className="mx-auto max-w-7xl">
+          <ul className="flex flex-wrap justify-center gap-x-12 gap-y-12 mt-14 mb-52">
+            {brands.map((b) => (
+              <li
+                key={b.alt}
+                className="flex items-center justify-center basis-1/3 md:basis-1/6"
+              >
+                <img
+                  src={b.image}
+                  alt={b.alt}
+                  loading="lazy"
+                  className={`${b.size} w-auto object-contain opacity-90 transition duration-200 hover:opacity-100`}
+                />
+              </li>
+            ))}
+          </ul>
         </div>
-      ))}
-    </div>
+      </div>
+    </section>
   );
 };

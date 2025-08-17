@@ -30,10 +30,10 @@ export const ThankyouPage = () => {
 
 	return (
 		<div className='flex flex-col h-screen'>
-			<header className='text-black flex items-center justify-center flex-col px-10 py-12'>
+			<header className='flex flex-col items-center justify-center px-10 py-12 text-black'>
 				<Link
 					to='/'
-					className='text-4xl font-bold self-center tracking-tighter transition-all md:text-5xl'
+					className='self-center text-4xl font-bold tracking-tighter transition-all md:text-5xl'
 				>
 					<p>
 						RF
@@ -42,8 +42,8 @@ export const ThankyouPage = () => {
 				</Link>
 			</header>
 
-			<main className='container flex-1 flex flex-col items-center gap-10'>
-				<div className='flex gap-3 items-center'>
+			<main className='container flex flex-col items-center flex-1 gap-10'>
+				<div className='flex items-center gap-3'>
 					<CiCircleCheck size={40} />
 
 					<p className='text-4xl'>
@@ -59,13 +59,13 @@ export const ThankyouPage = () => {
 							{data.orderItems.map((item, index) => (
 								<li
 									key={index}
-									className='flex justify-between items-center gap-3'
+									className='flex items-center justify-between gap-3'
 								>
 									<div className='flex'>
 										<img
 											src={item.productImage}
 											alt={item.productName}
-											className='w-16 h-16 object-contain'
+											className='object-contain w-16 h-16'
 										/>
 									</div>
 
@@ -74,7 +74,7 @@ export const ThankyouPage = () => {
 											<p className='font-semibold'>
 												{item.productName}
 											</p>
-											<p className='text-sm font-medium text-gray-600 mt-1'>
+											<p className='mt-1 text-sm font-medium text-gray-600'>
 												{formatPrice(item.price)} x {item.quantity}
 											</p>
 										</div>
@@ -105,7 +105,7 @@ export const ThankyouPage = () => {
 
 					<Link
 						to='/tienda'
-						className='text-white bg-black py-4 text-sm rounded-md px-5 tracking-tight font-semibold'
+						className='px-5 py-4 text-sm font-semibold tracking-tight text-white bg-black rounded-md'
 					>
 						Seguir comprando
 					</Link>
