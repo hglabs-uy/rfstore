@@ -13,9 +13,6 @@ export const HomePage = () => {
 	return (
 		<div className='space-y-10'>
 
-				<Brands />
-
-
 			{!isLoading && !isError && (
 				<ProductGrid
 					title='Productos Destacados' 
@@ -23,6 +20,7 @@ export const HomePage = () => {
 				/>
 			)}
 
+			<Brands />
 			<WhatsAppButton />
 
 		

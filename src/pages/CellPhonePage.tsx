@@ -176,7 +176,7 @@ export const CellPhonePage = () => {
 						<span className='tracking-wide text-lg font-semibold'>
 						{` ${formatPrice(
             				selectedVariant?.price || product.variants[0]?.price
-        				)} IVA incl. `}
+        				)} + IVA. `}
 						</span>
 
 						<div className='relative'>

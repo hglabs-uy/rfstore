@@ -97,7 +97,7 @@ onClick={handleAddClick}
 				</p>
 				<p className='text-[15px] font-medium'>
 					{formatPrice(price)}
-					<span className='text-xs text-slate-500'> IVA INCL.</span>
+					<span className='text-xs text-slate-500'> + IVA</span>
 				</p>
 
 				<div className='flex gap-3'>
