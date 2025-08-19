@@ -1,12 +1,15 @@
 import { LuMinus, LuPlus } from 'react-icons/lu';
 import { Separator } from '../components/shared/Separator';
-import { formatPrice } from '../helpers';
+import { formatPrice, prepareProducts } from '../helpers';
 import { CiDeliveryTruck } from 'react-icons/ci';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { BsChatLeftText } from 'react-icons/bs';
 import { ProductDescription } from '../components/one-product/ProductDescription';
 import { GridImages } from '../components/one-product/GridImages';
 import { useProduct } from '../hooks/products/useProduct';
+import { useQuery } from '@tanstack/react-query';
+import { getSimilarProductsByCategory } from '../actions';
+import { ProductGrid } from '../components/home/ProductGrid';
 import { useEffect, useMemo, useState } from 'react';
 import { VariantProduct } from '../interfaces';
 import { Tag } from '../components/shared/Tag';
@@ -315,6 +318,36 @@ export const CellPhonePage = () => {
 
 			{/* DESCRIPCIÓN */}
 			<ProductDescription content={product.description} />
+
+			{/* SIMILARES POR CATEGORÍA */}
+			<SimilarProductsSection
+				categoryId={product.category_id}
+				currentProductId={product.id}
+			/>
 		</>
 	);
+};
+
+const SimilarProductsSection = ({
+    categoryId,
+    currentProductId,
+}: {
+    categoryId: string;
+    currentProductId: string;
+}) => {
+    const { data } = useQuery({
+        queryKey: ['similarProducts', categoryId, currentProductId],
+        queryFn: () => getSimilarProductsByCategory(categoryId, currentProductId),
+        enabled: !!categoryId && !!currentProductId,
+    });
+
+    const prepared = prepareProducts(data || []);
+
+    if (!data || data.length === 0) return null;
+
+    return (
+        <div className='mt-10'>
+            <ProductGrid title='Productos similares' products={prepared} />
+        </div>
+    );
 };

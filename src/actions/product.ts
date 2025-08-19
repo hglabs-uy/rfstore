@@ -104,10 +104,10 @@ export const getRandomProducts = async () => {
         throw new Error(error.message);
     }
 
-    // Seleccionar 4 productos al azar
+    // Seleccionar 8 productos al azar
     const randomProducts = products
         .sort(() => 0.5 - Math.random())
-        .slice(0, 4);
+        .slice(0, 8);
 
     return randomProducts;
 };
@@ -125,6 +125,26 @@ export const getProductBySlug = async (slug: string) => {
     }
 
     return data;
+};
+
+export const getSimilarProductsByCategory = async (
+    categoryId: string,
+    excludeProductId: string
+) => {
+    const { data: products, error } = await supabase
+        .from('products')
+        .select('*, variants(*), brand:brands(*), category:categories(*)')
+        .eq('category_id', categoryId)
+        .neq('id', excludeProductId)
+        .order('created_at', { ascending: false })
+        .limit(4);
+
+    if (error) {
+        console.log(error.message);
+        throw new Error(error.message);
+    }
+
+    return products;
 };
 
 export const searchProducts = async (searchTerm: string) => {

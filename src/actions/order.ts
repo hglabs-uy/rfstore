@@ -113,9 +113,7 @@ export const createOrder = async (order: OrderInput) => {
 
 		if (updatedStockError) {
 			console.log(updatedStockError);
-			throw new Error(
-				`No se pudo actualizar el stock de la variante`
-			);
+			throw new Error(`No se pudo actualizar el stock de la variante`);
 		}
 	}
 
@@ -153,9 +151,7 @@ export const getOrdersByCustomerId = async () => {
 		.from('orders')
 		.select('id, total_amount, status, created_at')
 		.eq('customer_id', customerId)
-		.order('created_at', {
-			ascending: false,
-		});
+		.order('created_at', { ascending: false });
 
 	if (ordersError) throw new Error(ordersError.message);
 
@@ -193,7 +189,7 @@ export const getOrderById = async (orderId: number) => {
 			`
 				id, total_amount, status, created_at,
 				addresses:addresses(*),
-				order_items:order_items(quantity, price, variants(color_name, storage))
+				order_items:order_items(quantity, price, variants(color_name, storage, products(name, images)))
 			`
 		)
 		.eq('id', orderId)
@@ -208,8 +204,8 @@ export const getOrderById = async (orderId: number) => {
 	return {
 		id: order.id,
 		orderItems: order.order_items.map(item => ({
-			productImage: '',
-			productName: '',
+			productImage: item.variants?.products?.images?.[0] || '',
+			productName: item.variants?.products?.name || '',
 			price: item.price,
 			quantity: item.quantity,
 			color_name: item.variants ? item.variants.color_name : '',
@@ -239,9 +235,7 @@ export const getOrderById = async (orderId: number) => {
 export const getAllOrders = async () => {
 	const { data, error } = await supabase
 		.from('orders')
-		.select(
-			'id, total_amount, status, created_at, customers(full_name, email)'
-		)
+		.select('id, total_amount, status, created_at, customers(full_name, email)')
 		.order('created_at', { ascending: false });
 
 	if (error) throw new Error(error.message);
@@ -271,7 +265,7 @@ export const getOrderByIdAdmin = async (id: number) => {
 			`
 				id, total_amount, status, created_at,
 				addresses:addresses(*),
-				order_items:order_items(quantity, price, variants(color_name, storage)),
+				order_items:order_items(quantity, price, variants(color_name, storage, products(name, images))),
 				customers:customers(full_name, email)
 			`
 		)
@@ -283,8 +277,8 @@ export const getOrderByIdAdmin = async (id: number) => {
 	return {
 		id: order.id,
 		orderItems: order.order_items.map(item => ({
-			productImage: '',
-			productName: '',
+			productImage: item.variants?.products?.images?.[0] || '',
+			productName: item.variants?.products?.name || '',
 			price: item.price,
 			quantity: item.quantity,
 			color_name: item.variants ? item.variants.color_name : '',
