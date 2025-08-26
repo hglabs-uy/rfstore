@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useCreateOrder } from "../../hooks";
+import { useState, useEffect } from "react";
+import { useCreateOrder, useUser } from "../../hooks";
 import { useCartStore } from "../../store/cart.store";
 import { ImSpinner2 } from "react-icons/im";
 import toast from "react-hot-toast";
@@ -9,6 +9,7 @@ const FORMSPREE_ID = "mvgqddop";
 
 export const FormCheckout = () => {
   const { mutate: createOrder, isPending } = useCreateOrder();
+  const { session } = useUser();
 
   const cleanCart = useCartStore((state) => state.cleanCart);
   const cartItems = useCartStore((state) => state.items);
@@ -18,6 +19,13 @@ export const FormCheckout = () => {
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
+  // Pre-llenar el email del usuario logueado
+  useEffect(() => {
+    if (session?.user?.email) {
+      setEmail(session.user.email);
+    }
+  }, [session?.user?.email]);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,7 +39,7 @@ export const FormCheckout = () => {
         return `Producto ${index + 1}
 			Nombre: ${item.name}
 			Cantidad: ${item.quantity}
-			Precio: $${item.price}
+			Precio: ${formatPrice(item.price)}
 			-------------------------`;
       		})
       		.join("\n");

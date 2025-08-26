@@ -177,9 +177,9 @@ export const CellPhonePage = () => {
 
 					<div className='flex gap-5 items-center'>
 						<span className='tracking-wide text-lg font-semibold'>
-						{` ${formatPrice(
+						{formatPrice(
             				selectedVariant?.price || product.variants[0]?.price
-        				)} + IVA. `}
+        				)} + IVA
 						</span>
 
 						<div className='relative'>

@@ -1,9 +1,20 @@
 import { useForm, ValidationError } from '@formspree/react';
 import { Link } from 'react-router-dom';
 import { FaWhatsapp, FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaRegCommentDots } from 'react-icons/fa';
+import { useUser } from '../hooks';
+import { useEffect, useState } from 'react';
 
 export const AboutPage = () => {
   const [state, handleSubmit] = useForm('mvgqddop');
+  const { session } = useUser();
+  const [userEmail, setUserEmail] = useState('');
+
+  // Pre-llenar el email del usuario logueado
+  useEffect(() => {
+    if (session?.user?.email) {
+      setUserEmail(session.user.email);
+    }
+  }, [session?.user?.email]);
 
   if (state.succeeded) {
     return (
@@ -70,6 +81,7 @@ export const AboutPage = () => {
                     id="email"
                     type="email"
                     name="email"
+                    defaultValue={userEmail}
                     required
                     className="block w-full px-4 py-2 mt-1 text-gray-100 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:ring-cyan-500 focus:border-cyan-500"
                   />
