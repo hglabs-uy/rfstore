@@ -8,6 +8,7 @@ export const formatPrice = (price: number) => {
 	console.log(`formatPrice input: ${price}, output: ${result}`);
 	console.log(`formatPrice function is being called!`);
 	console.log(`This is the new formatPrice function!`);
+	console.log(`TESTING NEW FUNCTION!`);
 	return result;
 };
 
