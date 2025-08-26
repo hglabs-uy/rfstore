@@ -2,13 +2,13 @@ import { Color, Product, VariantProduct } from '../interfaces';
 
 // Función para formatear el precio a dólares
 export const formatPrice = (price: number) => {
-	// Formatear el número sin símbolo de moneda
+	// Forzar formato USD hardcodeado
 	const formatted = new Intl.NumberFormat('en-US', {
 		minimumFractionDigits: 2,
 		maximumFractionDigits: 2,
 	}).format(price);
 	
-	// Agregar el prefijo USD
+	// Agregar el prefijo USD de forma hardcodeada
 	return `USD ${formatted}`;
 };
 
