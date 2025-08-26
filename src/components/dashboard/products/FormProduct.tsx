@@ -169,6 +169,7 @@ export const FormProduct = ({ titleForm }: Props) => {
 						<select
 							className='border border-gray-300 rounded-md p-2'
 							{...register('brandId')}
+							defaultValue={product?.brand_id || ''}
 						>
 							<option value=''>Seleccionar marca</option>
 							{brands.map(brand => (
@@ -190,6 +191,7 @@ export const FormProduct = ({ titleForm }: Props) => {
 						<select
 							className='border border-gray-300 rounded-md p-2'
 							{...register('categoryId')}
+							defaultValue={product?.category_id || ''}
 						>
 							<option value=''>Seleccionar categoría</option>
 							{categories.map(category => (
