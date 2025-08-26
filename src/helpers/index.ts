@@ -4,7 +4,9 @@ import { Color, Product, VariantProduct } from '../interfaces';
 export const formatPrice = (price: number) => {
 	// Formato USD completamente hardcodeado
 	const formatted = price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-	return `USD ${formatted}`;
+	const result = `USD ${formatted}`;
+	console.log(`formatPrice input: ${price}, output: ${result}`);
+	return result;
 };
 
 // Función para preparar los productos - (CELULARES)
