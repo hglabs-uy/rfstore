@@ -11,14 +11,8 @@ export const AboutPage = () => {
 
   // Pre-llenar el email del usuario logueado
   useEffect(() => {
-    console.log('AboutPage useEffect - session:', session);
-    console.log('AboutPage useEffect - user email:', session?.user?.email);
-    
     if (session?.user?.email) {
-      console.log('AboutPage - Setting email to:', session.user.email);
       setUserEmail(session.user.email);
-    } else {
-      console.log('AboutPage - No user email found in session');
     }
   }, [session?.user?.email]);
 

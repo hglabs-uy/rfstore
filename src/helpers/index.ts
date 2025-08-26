@@ -2,25 +2,14 @@ import { Color, Product, VariantProduct } from '../interfaces';
 
 // Función para formatear el precio a dólares
 export const formatPrice = (price: number) => {
-	// Forzar el formato USD explícitamente
+	// Formatear el número sin símbolo de moneda
 	const formatted = new Intl.NumberFormat('en-US', {
-		style: 'currency',
-		currency: 'USD',
 		minimumFractionDigits: 2,
 		maximumFractionDigits: 2,
 	}).format(price);
 	
-	// Debug: verificar que el formato sea correcto
-	console.log(`formatPrice input: ${price}, output: ${formatted}`);
-	
-	// Si por alguna razón el formato no es USD, forzarlo manualmente
-	if (!formatted.includes('$')) {
-		const usdFormatted = `$${price.toFixed(2)}`;
-		console.log(`formatPrice fallback: ${usdFormatted}`);
-		return usdFormatted;
-	}
-	
-	return formatted;
+	// Agregar el prefijo USD
+	return `USD ${formatted}`;
 };
 
 // Función para preparar los productos - (CELULARES)
