@@ -23,8 +23,14 @@ export const FormCheckout = () => {
 
   // Pre-llenar el email del usuario logueado
   useEffect(() => {
+    console.log('FormCheckout useEffect - session:', session);
+    console.log('FormCheckout useEffect - user email:', session?.user?.email);
+    
     if (session?.user?.email) {
+      console.log('FormCheckout - Setting email to:', session.user.email);
       setEmail(session.user.email);
+    } else {
+      console.log('FormCheckout - No user email found in session');
     }
   }, [session?.user?.email]);
 
