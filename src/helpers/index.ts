@@ -2,13 +2,8 @@ import { Color, Product, VariantProduct } from '../interfaces';
 
 // Función para formatear el precio a dólares
 export const formatPrice = (price: number) => {
-	// Forzar formato USD hardcodeado
-	const formatted = new Intl.NumberFormat('en-US', {
-		minimumFractionDigits: 2,
-		maximumFractionDigits: 2,
-	}).format(price);
-	
-	// Agregar el prefijo USD de forma hardcodeada
+	// Formato USD completamente hardcodeado
+	const formatted = price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 	return `USD ${formatted}`;
 };
 
