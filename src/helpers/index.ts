@@ -110,7 +110,7 @@ export const generateUniqueSlug = async (name: string, existingSlug?: string): P
 	}
 
 	// Verificar si el slug ya existe y generar uno único
-	while (true) {
+	while (counter <= 100) { // Limitar a 100 intentos para evitar loops infinitos
 		try {
 			const { data, error } = await supabase
 				.from('products')
@@ -118,7 +118,7 @@ export const generateUniqueSlug = async (name: string, existingSlug?: string): P
 				.eq('slug', uniqueSlug)
 				.single();
 
-			// Si no hay error, significa que el slug existe
+			// Si no hay error y hay datos, significa que el slug existe
 			if (!error && data) {
 				uniqueSlug = `${baseSlug}-${counter}`;
 				counter++;
@@ -127,7 +127,8 @@ export const generateUniqueSlug = async (name: string, existingSlug?: string): P
 				break;
 			}
 		} catch (error) {
-			// Si hay error, significa que el slug no existe
+			// Si hay error, significa que el slug no existe o hay un problema de conexión
+			console.warn('Error checking slug uniqueness:', error);
 			break;
 		}
 	}
@@ -137,13 +138,18 @@ export const generateUniqueSlug = async (name: string, existingSlug?: string): P
 
 // Función para extraer el path relativo al bucket de una URL
 export const extractFilePath = (url: string) => {
+	// Si es una URL de placeholder o no es una URL válida de Supabase, retornar null
+	if (!url || url.includes('placeholder.svg') || !url.includes('/storage/v1/object/public/product-images/')) {
+		return null;
+	}
+
 	const parts = url.split(
 		'/storage/v1/object/public/product-images/'
 	);
 	// EJEMPLO PARTS: ['/storage/v1/ object/public/product-images/', '02930920302302030293023-iphone-12-pro-max.jpg']
 
 	if (parts.length !== 2) {
-		throw new Error(`URL de imagen no válida: ${url}`);
+		return null;
 	}
 
 	return parts[1];

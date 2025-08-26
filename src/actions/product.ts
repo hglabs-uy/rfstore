@@ -363,7 +363,9 @@ export const updateProduct = async (
     );
 
     // 3.2 Obtener los paths de los archivos a eliminar
-    const filesToDelete = imagesToDelete.map(extractFilePath);
+    const filesToDelete = imagesToDelete
+        .map(extractFilePath)
+        .filter(path => path !== null) as string[]; // Filtrar paths nulos
 
     // 3.3 Eliminar las imágenes del bucket
     if (filesToDelete.length > 0) {
