@@ -306,11 +306,11 @@ export const updateProduct = async (
     productId: string,
     productInput: ProductInput
 ) => {
-    // 1. Obtener las imágenes actuales del producto
+    // 1. Obtener las imágenes actuales del producto y el slug actual
     const { data: currentProduct, error: currentProductError } =
         await supabase
             .from('products')
-            .select('images')
+            .select('images, slug')
             .eq('id', productId)
             .single();
 
@@ -318,13 +318,27 @@ export const updateProduct = async (
         throw new Error(currentProductError.message);
 
     const existingImages = currentProduct.images || [];
+    const currentSlug = currentProduct.slug;
 
-    // 2. Actualizar la información individual del producto
+    // 2. Generar un slug único si el nombre cambió
+    let finalSlug = productInput.slug;
+    if (productInput.name !== currentProduct.name) {
+        try {
+            const { generateUniqueSlug } = await import('../helpers');
+            finalSlug = await generateUniqueSlug(productInput.name, currentSlug);
+        } catch (error) {
+            console.error('Error generating unique slug:', error);
+            // Si falla la generación del slug único, usar el original
+            finalSlug = currentSlug;
+        }
+    }
+
+    // 3. Actualizar la información individual del producto
     const { data: updatedProduct, error: productError } = await supabase
         .from('products')
         .update({
             name: productInput.name,
-            slug: productInput.slug,
+            slug: finalSlug,
             features: productInput.features,
             description: productInput.description,
             brand_id: productInput.brandId,

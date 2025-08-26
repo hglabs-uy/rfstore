@@ -1,4 +1,5 @@
 import { Color, Product, VariantProduct } from '../interfaces';
+import { supabase } from '../supabase/client';
 
 // Función para formatear el precio a dólares
 export const formatPrice = (price: number) => {
@@ -95,6 +96,43 @@ export const generateSlug = (name: string): string => {
 		.toLowerCase()
 		.replace(/[^a-z0-9]+/g, '-')
 		.replace(/(^-|-$)/g, '');
+};
+
+// Función para generar un slug único
+export const generateUniqueSlug = async (name: string, existingSlug?: string): Promise<string> => {
+	let baseSlug = generateSlug(name);
+	let uniqueSlug = baseSlug;
+	let counter = 1;
+
+	// Si es el mismo slug existente, no necesitamos verificar duplicados
+	if (existingSlug === baseSlug) {
+		return baseSlug;
+	}
+
+	// Verificar si el slug ya existe y generar uno único
+	while (true) {
+		try {
+			const { data, error } = await supabase
+				.from('products')
+				.select('id')
+				.eq('slug', uniqueSlug)
+				.single();
+
+			// Si no hay error, significa que el slug existe
+			if (!error && data) {
+				uniqueSlug = `${baseSlug}-${counter}`;
+				counter++;
+			} else {
+				// El slug es único
+				break;
+			}
+		} catch (error) {
+			// Si hay error, significa que el slug no existe
+			break;
+		}
+	}
+
+	return uniqueSlug;
 };
 
 // Función para extraer el path relativo al bucket de una URL
