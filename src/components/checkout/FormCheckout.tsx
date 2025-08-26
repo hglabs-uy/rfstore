@@ -4,6 +4,7 @@ import { useCartStore } from "../../store/cart.store";
 import { ImSpinner2 } from "react-icons/im";
 import toast from "react-hot-toast";
 import { ItemsCheckout } from "./ItemsCheckout";
+import { formatPrice } from "../../helpers";
 
 const FORMSPREE_ID = "mvgqddop";
 
