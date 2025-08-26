@@ -6,6 +6,8 @@ export const formatPrice = (price: number) => {
 	const formatted = price.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 	const result = `USD ${formatted}`;
 	console.log(`formatPrice input: ${price}, output: ${result}`);
+	console.log(`formatPrice function is being called!`);
+	console.log(`This is the new formatPrice function!`);
 	return result;
 };
 
