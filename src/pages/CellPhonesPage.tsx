@@ -13,6 +13,7 @@ export const CellPhonesPage = () => {
 	const [priceMin, setPriceMin] = useState<number | undefined>(undefined);
 	const [priceMax, setPriceMax] = useState<number | undefined>(undefined);
 	const [searchTerm, setSearchTerm] = useState('');
+	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc'); // Precio mayor a menor por defecto
 
 	const {
 		data: products = [],
@@ -35,6 +36,15 @@ export const CellPhonesPage = () => {
 		(product.brandName || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
 		(product.categoryName || '').toLowerCase().includes(searchTerm.toLowerCase())
 	);
+
+	// Ordenar productos por precio
+	const sortedProducts = [...filteredProducts].sort((a, b) => {
+		if (sortOrder === 'desc') {
+			return b.price - a.price; // Mayor a menor
+		} else {
+			return a.price - b.price; // Menor a mayor
+		}
+	});
 
 	return (
 		<>
@@ -60,13 +70,31 @@ export const CellPhonesPage = () => {
 				</div>
 			</div>
 
-			{searchTerm && (
-				<div className='mb-6 text-center'>
-					<p className='text-lg text-gray-600'>
-						{filteredProducts.length} producto{filteredProducts.length !== 1 ? 's' : ''} encontrado{filteredProducts.length !== 1 ? 's' : ''} para "{searchTerm}"
-					</p>
+			{/* Contador de resultados y ordenamiento */}
+			<div className='mb-6 flex flex-col sm:flex-row items-center justify-between gap-4'>
+				{searchTerm && (
+					<div className='text-center sm:text-left'>
+						<p className='text-lg text-gray-600'>
+							{filteredProducts.length} producto{filteredProducts.length !== 1 ? 's' : ''} encontrado{filteredProducts.length !== 1 ? 's' : ''} para "{searchTerm}"
+						</p>
+					</div>
+				)}
+				
+				{/* Selector de ordenamiento */}
+				<div className='flex items-center gap-3'>
+					<label className='text-sm font-medium text-gray-700'>
+						Ordenar por precio:
+					</label>
+					<select
+						value={sortOrder}
+						onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
+						className='px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent bg-white'
+					>
+						<option value='desc'>Mayor a menor</option>
+						<option value='asc'>Menor a mayor</option>
+					</select>
 				</div>
-			)}
+			</div>
 
 			<div className='grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5'>
 				{/* FILTROS */}
@@ -88,7 +116,7 @@ export const CellPhonesPage = () => {
 				) : (
 					<div className='flex flex-col col-span-2 gap-12 lg:col-span-2 xl:col-span-4'>
 						<div className='grid grid-cols-2 gap-3 gap-y-10 xl:grid-cols-4'>
-							{filteredProducts.map(product => (
+							{sortedProducts.map(product => (
 								<CardProduct
 									key={product.id}
 									name={product.name}
