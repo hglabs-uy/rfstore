@@ -62,19 +62,34 @@ export const ProductGrid = ({ title, products }: Props) => {
 					</div>
 				)}
 				
-				{/* Selector de ordenamiento */}
-				<div className='flex items-center gap-3'>
-					<label className='text-sm font-medium text-gray-700'>
-						Ordenar por precio:
-					</label>
-					<select
-						value={sortOrder}
-						onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
-						className='px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent bg-white'
+				{/* Ordenamiento por precio con flechas */}
+				<div className='flex items-center gap-2'>
+					<button
+						onClick={() => setSortOrder('desc')}
+						className={`p-2 rounded-md transition-all duration-200 ${
+							sortOrder === 'desc' 
+								? 'bg-black text-white shadow-md' 
+								: 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+						}`}
+						title='Precio mayor a menor'
 					>
-						<option value='desc'>Mayor a menor</option>
-						<option value='asc'>Menor a mayor</option>
-					</select>
+						<svg className='w-5 h-5' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+							<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 14l-7 7m0 0l-7-7m7 7V3' />
+						</svg>
+					</button>
+					<button
+						onClick={() => setSortOrder('asc')}
+						className={`p-2 rounded-md transition-all duration-200 ${
+							sortOrder === 'asc' 
+								? 'bg-black text-white shadow-md' 
+								: 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+						}`}
+						title='Precio menor a mayor'
+					>
+						<svg className='w-5 h-5' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+							<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 10l7-7m0 0l7 7m-7-7v18' />
+						</svg>
+					</button>
 				</div>
 			</div>
 
