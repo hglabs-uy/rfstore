@@ -12,6 +12,7 @@ export const CellPhonesPage = () => {
 	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 	const [priceMin, setPriceMin] = useState<number | undefined>(undefined);
 	const [priceMax, setPriceMax] = useState<number | undefined>(undefined);
+	const [searchTerm, setSearchTerm] = useState('');
 
 	const {
 		data: products = [],
@@ -27,11 +28,45 @@ export const CellPhonesPage = () => {
 
 	const preparedProducts = prepareProducts(products);
 
+	// Filtrar productos por término de búsqueda
+	const filteredProducts = preparedProducts.filter(product =>
+		product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+		product.slug.toLowerCase().includes(searchTerm.toLowerCase()) ||
+		(product.brandName || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+		(product.categoryName || '').toLowerCase().includes(searchTerm.toLowerCase())
+	);
+
 	return (
 		<>
 			<h1 className='mb-12 text-5xl font-semibold text-center'>
 				Tienda
 			</h1>
+
+			{/* Buscador */}
+			<div className='mb-8 flex justify-center'>
+				<div className='relative max-w-2xl w-full'>
+					<input
+						type='text'
+						placeholder='Buscar productos por nombre, marca o categoría...'
+						value={searchTerm}
+						onChange={(e) => setSearchTerm(e.target.value)}
+						className='w-full px-6 py-4 pl-12 text-lg border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent shadow-sm'
+					/>
+					<div className='absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none'>
+						<svg className='h-6 w-6 text-gray-400' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+							<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' />
+						</svg>
+					</div>
+				</div>
+			</div>
+
+			{searchTerm && (
+				<div className='mb-6 text-center'>
+					<p className='text-lg text-gray-600'>
+						{filteredProducts.length} producto{filteredProducts.length !== 1 ? 's' : ''} encontrado{filteredProducts.length !== 1 ? 's' : ''} para "{searchTerm}"
+					</p>
+				</div>
+			)}
 
 			<div className='grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5'>
 				{/* FILTROS */}
@@ -53,7 +88,7 @@ export const CellPhonesPage = () => {
 				) : (
 					<div className='flex flex-col col-span-2 gap-12 lg:col-span-2 xl:col-span-4'>
 						<div className='grid grid-cols-2 gap-3 gap-y-10 xl:grid-cols-4'>
-							{preparedProducts.map(product => (
+							{filteredProducts.map(product => (
 								<CardProduct
 									key={product.id}
 									name={product.name}
