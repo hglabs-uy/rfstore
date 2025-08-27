@@ -78,7 +78,11 @@ export const FormProduct = ({ titleForm }: Props) => {
 	const onSubmit = handleSubmit(data => {
 		const features = data.features.map(feature => feature.value);
 
+		console.log('Form data:', data);
+		console.log('Features:', features);
+
 		if (slug) {
+			console.log('Updating product...');
 			updateProduct({
 				name: data.name,
 				slug: data.slug,
@@ -90,6 +94,7 @@ export const FormProduct = ({ titleForm }: Props) => {
 				categoryId: data.categoryId,
 			});
 		} else {
+			console.log('Creating product...');
 			createProduct({
 				name: data.name,
 				slug: data.slug,

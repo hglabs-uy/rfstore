@@ -166,6 +166,8 @@ export const searchProducts = async (searchTerm: string) => {
 /* ********************************** */
 export const createProduct = async (productInput: ProductInput) => {
     try {
+        console.log('Creating product with input:', productInput);
+        
         // 1. Crear el producto para obtener el ID
         const { data: product, error: productError } = await supabase
             .from('products')
@@ -181,7 +183,12 @@ export const createProduct = async (productInput: ProductInput) => {
             .select()
             .single();
 
-        if (productError) throw new Error(productError.message);
+        if (productError) {
+            console.error('Product creation error:', productError);
+            throw new Error(productError.message);
+        }
+        
+        console.log('Product created successfully:', product);
 
         // 2. Subir las imágenes al bucket dentro de una carpeta que se creará a partir del producto
         const folderName = product.id;
