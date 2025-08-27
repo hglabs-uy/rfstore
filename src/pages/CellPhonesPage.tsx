@@ -71,16 +71,21 @@ export const CellPhonesPage = () => {
 			</div>
 
 			{/* Contador de resultados y ordenamiento */}
-			<div className='mb-6 flex flex-col sm:flex-row items-center justify-between gap-4'>
-				{searchTerm && (
-					<div className='text-center sm:text-left'>
+			<div className='mb-6 flex flex-col sm:flex-row items-center gap-4'>
+				{/* Contador de resultados - siempre ocupa espacio */}
+				<div className='flex-1 text-center sm:text-left'>
+					{searchTerm ? (
 						<p className='text-lg text-gray-600'>
 							{filteredProducts.length} producto{filteredProducts.length !== 1 ? 's' : ''} encontrado{filteredProducts.length !== 1 ? 's' : ''} para "{searchTerm}"
 						</p>
-					</div>
-				)}
+					) : (
+						<p className='text-lg text-gray-600'>
+							{filteredProducts.length} producto{filteredProducts.length !== 1 ? 's' : ''} disponible{filteredProducts.length !== 1 ? 's' : ''}
+						</p>
+					)}
+				</div>
 				
-				{/* Ordenamiento por precio con flechas */}
+				{/* Ordenamiento por precio con flechas - siempre a la derecha */}
 				<div className='flex items-center gap-2'>
 					<button
 						onClick={() => setSortOrder('desc')}
