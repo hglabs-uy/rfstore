@@ -294,13 +294,17 @@ export const deleteProduct = async (productId: string) => {
         // 6. Eliminar las imágenes del bucket
         if (productImages.images.length > 0) {
             //const folderName = productId;
-            const paths = productImages.images.map(image => extractFilePath(image));
+            const paths = productImages.images
+                .map(image => extractFilePath(image))
+                .filter((path): path is string => path !== null);
 
-            const { error: storageError } = await supabase.storage
-                .from('product-images')
-                .remove(paths);
+            if (paths.length > 0) {
+                const { error: storageError } = await supabase.storage
+                    .from('product-images')
+                    .remove(paths);
 
-            if (storageError) throw new Error(storageError.message);
+                if (storageError) throw new Error(storageError.message);
+            }
         }
 
         return true;
@@ -317,7 +321,7 @@ export const updateProduct = async (
     const { data: currentProduct, error: currentProductError } =
         await supabase
             .from('products')
-            .select('images, slug')
+            .select('images, slug, name')
             .eq('id', productId)
             .single();
 
@@ -372,7 +376,7 @@ export const updateProduct = async (
     // 3.2 Obtener los paths de los archivos a eliminar
     const filesToDelete = imagesToDelete
         .map(extractFilePath)
-        .filter(path => path !== null) as string[]; // Filtrar paths nulos
+        .filter((path): path is string => path !== null); // Filtrar paths nulos
 
     // 3.3 Eliminar las imágenes del bucket
     if (filesToDelete.length > 0) {
