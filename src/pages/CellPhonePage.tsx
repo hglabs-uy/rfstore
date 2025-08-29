@@ -252,7 +252,7 @@ export const CellPhonePage = () => {
 					{/* COMPRAR */}
 					{isOutOfStock ? (
 						<button
-							className='bg-[#f3f3f3] uppercase font-semibold tracking-widest text-xs py-4 rounded-full transition-all duration-300 hover:bg-[#e2e2e2] w-full'
+							className=' uppercase font-semibold tracking-widest text-xs py-4 rounded-full transition-all duration-300 hover:bg-[#e2e2e2] w-full'
 							disabled
 						>
 							Agotado
