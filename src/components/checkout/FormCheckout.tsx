@@ -42,13 +42,14 @@ export const FormCheckout = () => {
 			Cantidad: ${item.quantity}
 			Precio: ${formatPrice(item.price)}
 			-------------------------`;
-      		})
-      		.join("\n");
+      })
+      .join("\n");
 
     setSubmitting(true);
+    
     try {
       // Enviar datos de contacto a Formspree
-      await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -64,7 +65,19 @@ export const FormCheckout = () => {
         }),
       });
 
+      // Verificar si la respuesta fue exitosa
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
+      const result = await response.json();
+      
+      // Verificar si Formspree procesó correctamente
+      if (result.errors) {
+        throw new Error("Formspree validation errors");
+      }
+
+      // Si llegamos aquí, Formspree fue exitoso
       // Crear la orden como hasta ahora
       const orderInput = {
         address: {
@@ -93,7 +106,9 @@ export const FormCheckout = () => {
           cleanCart();
         },
       });
+      
     } catch (err) {
+      console.error('Error:', err);
       toast.error("No se pudo enviar tu solicitud. Intenta nuevamente.");
     } finally {
       setSubmitting(false);
@@ -104,7 +119,6 @@ export const FormCheckout = () => {
     return (
       <div className="flex flex-col items-center justify-center h-screen gap-3">
         <ImSpinner2 className="w-10 h-10 animate-spin" />
-
         <p className="text-sm font-medium">Estamos procesando tu pedido</p>
       </div>
     );
