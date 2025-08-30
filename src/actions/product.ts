@@ -38,7 +38,7 @@ export const getFilteredProducts = async ({
     priceMin?: number;
     priceMax?: number;
 }) => {
-    const itemsPerPage = 10;
+    const itemsPerPage = 12;
     const from = (page - 1) * itemsPerPage;
     const to = from + itemsPerPage - 1;
 

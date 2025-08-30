@@ -64,9 +64,6 @@ export const FormCheckout = () => {
         }),
       });
 
-      console.log("cartItemmmmmmmmmmmmmmmmmmm");
-      console.log(cartItems);
-      console.log("cartItemmmmmmmmmmmmmmmmmmm");
 
       // Crear la orden como hasta ahora
       const orderInput = {
@@ -128,7 +125,7 @@ export const FormCheckout = () => {
             <input
               type="email"
               className="p-2 border rounded-md border-slate-300"
-              placeholder="cliente@correo.com"
+              placeholder="correo@correo.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required

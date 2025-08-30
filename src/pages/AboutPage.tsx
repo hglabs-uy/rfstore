@@ -169,7 +169,7 @@ export const AboutPage = () => {
               <h3 className="mb-3 text-lg font-semibold">Datos de contacto</h3>
               <ul className="space-y-2 text-gray-300">
                 <li className="flex items-center gap-2">
-                  <FaEnvelope /> contacto@rfstore.com
+                  <FaEnvelope /> ventas@rfstore.uy
                 </li>
                 <li className="flex items-center gap-2">
                   <FaPhoneAlt /> +598 94 116 299
