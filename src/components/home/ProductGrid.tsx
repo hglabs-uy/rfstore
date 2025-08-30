@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const ProductGrid = ({ title, products }: Props) => {
-	const [searchTerm, setSearchTerm] = useState('');
+	const [searchTerm] = useState('');
 	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc'); // Precio mayor a menor por defecto
 
 	// Filtrar productos por término de búsqueda
