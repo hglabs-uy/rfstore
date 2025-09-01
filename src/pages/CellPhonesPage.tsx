@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CardProduct } from '../components/products/CardProduct';
 import { ContainerFilter } from '../components/products/ContainerFilter';
 import { prepareProducts } from '../helpers';
@@ -13,7 +13,11 @@ export const CellPhonesPage = () => {
 	const [priceMin, setPriceMin] = useState<number | undefined>(undefined);
 	const [priceMax, setPriceMax] = useState<number | undefined>(undefined);
 	const [searchTerm, setSearchTerm] = useState('');
-	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc'); // Precio mayor a menor por defecto
+	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc'); 
+
+		useEffect(() => {
+		setPage(1);
+	}, [selectedBrands, selectedCategories, priceMin, priceMax, searchTerm]);
 
 	const {
 		data: products = [],
