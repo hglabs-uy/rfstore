@@ -7,12 +7,16 @@ export const Footer = () => {
     <footer className="flex flex-col px-12 py-16 mt-10 text-sm bg-gray-950 text-slate-200">
       {/* fila superior con logo + 3 columnas */}
       <div className="flex flex-wrap justify-between gap-10 md:flex-nowrap">
-        <Link
-          to="/"
-          className="flex-1 text-2xl font-bold tracking-tighter text-white transition-all"
-        >
-          RF STORE
-        </Link>
+       <Link
+    to='/'
+    className='self-center md:self-start' // Mantenemos las clases de alineación
+>
+    <img
+        src="/img/img-docs/logonegrorf.jpg" // La ruta correcta a tu imagen
+        alt="Logo de RF Store"
+        className="h-14 w-auto" // Ajusta el tamaño aquí (ej. h-14 son 56px de alto)
+    />
+</Link>
 
         <div className="flex flex-col flex-1 gap-4">
           <p className="font-semibold tracking-tighter uppercase">Suscríbete</p>

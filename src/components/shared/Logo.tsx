@@ -12,7 +12,7 @@ export const Logo = ({ isDashboard }: Props) => {
 				isDashboard && 'hover:scale-105'
 			}`}
 		>
-			<img src="/img/img-docs/logorfstore.jpeg" alt="" className="h-10 w-20 object-cover rounded-full" />
+			<img src="/img/img-docs/logoblancorf.jpg" alt="" className="h-10 w-20 object-cover rounded-full" />
 
 		</Link>
 	);

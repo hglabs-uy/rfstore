@@ -32,14 +32,15 @@ export const CheckoutPage = () => {
 		>
 			<header className='h-[100px] bg-white text-black flex items-center justify-center flex-col px-10 border-b border-slate-200'>
 				<Link
-					to='/'
-					className='self-center text-4xl font-bold tracking-tighter transition-all md:text-5xl md:self-start'
-				>
-					<p>
-						RF
-						<span className='text-cyan-600'>STORE</span>
-					</p>
-				</Link>
+    to='/'
+    className='self-center md:self-start' // Mantenemos las clases de alineación
+>
+    <img
+        src="/img/img-docs/logoblancorf.jpg" // La ruta correcta a tu imagen
+        alt="Logo de RF Store"
+        className="h-14 w-auto" // Ajusta el tamaño aquí (ej. h-14 son 56px de alto)
+    />
+</Link>
 			</header>
 
 			<main className='relative flex w-full h-full'>

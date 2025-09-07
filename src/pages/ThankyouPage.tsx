@@ -31,15 +31,16 @@ export const ThankyouPage = () => {
 	return (
 		<div className='flex flex-col h-screen'>
 			<header className='flex flex-col items-center justify-center px-10 py-12 text-black'>
-				<Link
-					to='/'
-					className='self-center text-4xl font-bold tracking-tighter transition-all md:text-5xl'
-				>
-					<p>
-						RF
-						<span className='text-cyan-600'>STORE</span>
-					</p>
-				</Link>
+			<Link
+    to='/'
+    className='self-center md:self-start' // Mantenemos las clases de alineación
+>
+    <img
+        src="/img/img-docs/logoblancorf.jpg" // La ruta correcta a tu imagen
+        alt="Logo de RF Store"
+        className="h-14 w-auto" // Ajusta el tamaño aquí (ej. h-14 son 56px de alto)
+    />
+</Link>
 			</header>
 
 			<main className='container flex flex-col items-center flex-1 gap-10'>
