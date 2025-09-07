@@ -51,6 +51,53 @@ export const getPublishedPosts = async (page: number = 1) => {
     return { posts: postsWithAuthors, count };
 };
 
+export const getPostById = async (postId: string) => {
+    // 1. Obtener el post por su ID, solo si está publicado.
+    const { data: post, error: postError } = await supabase
+        .from('posts')
+        .select(`*, images:post_images(*)`)
+        .eq('id', postId)
+        .eq('status', 'published')
+        .single();
+
+    if (postError) {
+        // Si el error es porque no se encontró ninguna fila, es normal.
+        // Devolvemos null para que la página pueda mostrar un mensaje de "No encontrado".
+        if (postError.code === 'PGRST116') {
+            return null;
+        }
+        console.error('Error al obtener el post:', postError.message);
+        throw new Error('No se pudo cargar el post.');
+    }
+
+    if (!post) {
+        return null;
+    }
+
+    // 2. Si encontramos el post, buscamos el nombre del autor.
+    const { data: authorData, error: authorError } = await supabase
+        .from('customers')
+        .select('full_name')
+        .eq('user_id', post.author_id)
+        .single();
+
+    if (authorError) {
+        // No queremos que la página se rompa si no se encuentra el autor.
+        // Simplemente registramos una advertencia y continuamos.
+        console.warn(`Autor no encontrado para el post ID: ${post.id}`);
+    }
+
+    // 3. Unimos la información del post con la del autor y la devolvemos.
+    const postWithAuthor = {
+        ...post,
+        author: {
+            full_name: authorData?.full_name || 'Autor Desconocido'
+        }
+    };
+
+    return postWithAuthor;
+};
+
 export interface PostInput {
     title: string;
     content: string;
