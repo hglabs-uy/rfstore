@@ -26,17 +26,21 @@ export const getProducts = async (page: number) => {
 };
 
 export const getFilteredProducts = async ({
-    page = 1,
     brands = [],
     categories = [],
     priceMin,
     priceMax,
+    page,
+    searchTerm,
+    sortOrder,
 }: {
-    page: number;
     brands: string[];
     categories?: string[];
     priceMin?: number;
     priceMax?: number;
+    page: number;
+    searchTerm?: string;
+    sortOrder?: 'asc' | 'desc';
 }) => {
     const itemsPerPage = 12;
     const from = (page - 1) * itemsPerPage;
@@ -44,16 +48,41 @@ export const getFilteredProducts = async ({
 
     let query = supabase
         .from('products')
-        .select('*, variants(*), brand:brands(*), category:categories(*)', { count: 'exact' })
-        .order('created_at', { ascending: false })
-        .range(from, to);
+        .select('*, variants(*), brand:brands(*), category:categories(*)', { count: 'exact' });
+
+    if (searchTerm) {
+        query = query.ilike('name', `%${searchTerm}%`);
+    }
 
     if (brands.length > 0) {
         query = query.in('brand_id', brands);
     }
+
     if (categories && categories.length > 0) {
         query = query.in('category_id', categories);
     }
+
+    // Aquí se aplica la ordenación del lado del servidor
+    // Para que esto funcione bien, la columna 'min_price' debe existir
+    // ya sea en tu tabla 'products' o en una vista que la contenga.
+    if (sortOrder === 'asc') {
+        query = query.order('min_price', { ascending: true });
+    } else if (sortOrder === 'desc') {
+        query = query.order('min_price', { ascending: false });
+    } else {
+        query = query.order('created_at', { ascending: false });
+    }
+
+    // Aquí se aplica el filtro de precio del lado del servidor.
+    // Necesita que la columna 'min_price' exista.
+    if (typeof priceMin === 'number') {
+        query = query.gte('min_price', priceMin);
+    }
+    if (typeof priceMax === 'number') {
+        query = query.lte('min_price', priceMax);
+    }
+
+    query = query.range(from, to);
 
     const { data, error, count } = await query;
 
@@ -61,21 +90,10 @@ export const getFilteredProducts = async ({
         console.log(error.message);
         throw new Error(error.message);
     }
-
-    // Filtro por precio en el cliente: filtra por el precio mínimo de sus variantes
-    let filtered = data || [];
-    if (typeof priceMin === 'number' || typeof priceMax === 'number') {
-        filtered = filtered.filter(product => {
-            const prices = (product.variants || []).map(v => v.price);
-            if (prices.length === 0) return false;
-            const minPrice = Math.min(...prices);
-            if (typeof priceMin === 'number' && minPrice < priceMin) return false;
-            if (typeof priceMax === 'number' && minPrice > priceMax) return false;
-            return true;
-        });
-    }
-
-    return { data: filtered, count };
+    
+    // Eliminamos el filtro de precio del lado del cliente,
+    // ya que ahora se hace en la base de datos.
+    return { data, count: count ?? 0 };
 };
 
 export const getRecentProducts = async () => {
@@ -104,7 +122,6 @@ export const getRandomProducts = async () => {
         throw new Error(error.message);
     }
 
-    // Seleccionar 8 productos al azar
     const randomProducts = products
         .sort(() => 0.5 - Math.random())
         .slice(0, 8);
@@ -151,7 +168,7 @@ export const searchProducts = async (searchTerm: string) => {
     const { data, error } = await supabase
         .from('products')
         .select('*, variants(*), brand:brands(*), category:categories(*)')
-        .ilike('name', `%${searchTerm}%`); //Buscar productos cuyo nombre contenga el término de búsqueda
+        .ilike('name', `%${searchTerm}%`);
 
     if (error) {
         console.log(error.message);
@@ -162,13 +179,12 @@ export const searchProducts = async (searchTerm: string) => {
 };
 
 /* ********************************** */
-/* ADMINISTRADOR          */
+/* ADMINISTRADOR          */
 /* ********************************** */
 export const createProduct = async (productInput: ProductInput) => {
     try {
         console.log('Creating product with input:', productInput);
         
-        // 1. Crear el producto para obtener el ID
         const { data: product, error: productError } = await supabase
             .from('products')
             .insert({
@@ -190,7 +206,6 @@ export const createProduct = async (productInput: ProductInput) => {
         
         console.log('Product created successfully:', product);
 
-        // 2. Subir las imágenes al bucket dentro de una carpeta que se creará a partir del producto
         const folderName = product.id;
 
         const uploadedImages = await Promise.all(
@@ -211,7 +226,6 @@ export const createProduct = async (productInput: ProductInput) => {
             })
         );
 
-        // 3. Actualizar el producto con las imágenes subidas
         const { error: updatedError } = await supabase
             .from('products')
             .update({
@@ -221,7 +235,6 @@ export const createProduct = async (productInput: ProductInput) => {
 
         if (updatedError) throw new Error(updatedError.message);
 
-        // 4. Crear las variantes del producto
         const variants = productInput.variants.map(variant => ({
             product_id: product.id,
             stock: variant.stock,
@@ -246,7 +259,6 @@ export const createProduct = async (productInput: ProductInput) => {
 
 export const deleteProduct = async (productId: string) => {
     try {
-        // 1. Obtener los IDs de las variantes del producto
         const { data: variants, error: getVariantsError } = await supabase
             .from('variants')
             .select('id')
@@ -257,7 +269,6 @@ export const deleteProduct = async (productId: string) => {
         const variantIds = variants.map(v => v.id);
 
         if (variantIds.length > 0) {
-            // 2. Eliminar los items de las órdenes vinculados a estas variantes
             const { error: deleteOrderItemsError } = await supabase
                 .from('order_items')
                 .delete()
@@ -266,7 +277,6 @@ export const deleteProduct = async (productId: string) => {
             if (deleteOrderItemsError) throw new Error(deleteOrderItemsError.message);
         }
 
-        // 3. Eliminar las variantes del producto
         const { error: variantsError } = await supabase
             .from('variants')
             .delete()
@@ -274,7 +284,6 @@ export const deleteProduct = async (productId: string) => {
 
         if (variantsError) throw new Error(variantsError.message);
 
-        // 4. Obtener las imágenes del producto antes de eliminarlo
         const { data: productImages, error: productImagesError } = await supabase
             .from('products')
             .select('images')
@@ -283,7 +292,6 @@ export const deleteProduct = async (productId: string) => {
 
         if (productImagesError) throw new Error(productImagesError.message);
 
-        // 5. Eliminar el producto
         const { error: productDeleteError } = await supabase
             .from('products')
             .delete()
@@ -291,9 +299,7 @@ export const deleteProduct = async (productId: string) => {
 
         if (productDeleteError) throw new Error(productDeleteError.message);
 
-        // 6. Eliminar las imágenes del bucket
         if (productImages.images.length > 0) {
-            //const folderName = productId;
             const paths = productImages.images
                 .map(image => extractFilePath(image))
                 .filter((path): path is string => path !== null);
@@ -317,7 +323,6 @@ export const updateProduct = async (
     productId: string,
     productInput: ProductInput
 ) => {
-    // 1. Obtener las imágenes actuales del producto y el slug actual
     const { data: currentProduct, error: currentProductError } =
         await supabase
             .from('products')
@@ -331,7 +336,6 @@ export const updateProduct = async (
     const existingImages = currentProduct.images || [];
     const currentSlug = currentProduct.slug;
 
-    // 2. Generar un slug único si el nombre cambió
     let finalSlug = productInput.slug;
     if (productInput.name !== currentProduct.name) {
         try {
@@ -339,12 +343,10 @@ export const updateProduct = async (
             finalSlug = await generateUniqueSlug(productInput.name, currentSlug);
         } catch (error) {
             console.error('Error generating unique slug:', error);
-            // Si falla la generación del slug único, usar el original
             finalSlug = currentSlug;
         }
     }
 
-    // 3. Actualizar la información individual del producto
     const { data: updatedProduct, error: productError } = await supabase
         .from('products')
         .update({
@@ -361,24 +363,20 @@ export const updateProduct = async (
 
     if (productError) throw new Error(productError.message);
 
-    // 3. Manejo de imágenes (SUBIR NUEVAS y ELIMINAR ANTIGUAS SI ES NECESARIO)
     const folderName = productId;
 
     const validImages = productInput.images.filter(image => image) as [
         File | string
     ];
 
-    // 3.1 Identificar las imágenes que han sido eliminadas
     const imagesToDelete = existingImages.filter(
         image => !validImages.includes(image)
     );
 
-    // 3.2 Obtener los paths de los archivos a eliminar
     const filesToDelete = imagesToDelete
         .map(extractFilePath)
-        .filter((path): path is string => path !== null); // Filtrar paths nulos
+        .filter((path): path is string => path !== null);
 
-    // 3.3 Eliminar las imágenes del bucket
     if (filesToDelete.length > 0) {
         const { error: deleteImagesError } = await supabase.storage
             .from('product-images')
@@ -392,7 +390,6 @@ export const updateProduct = async (
         }
     }
 
-    // 3.4 Subir las nuevas imágenes que son de tipo File
     const newImages = await Promise.all(
         validImages.map(async image => {
             if (typeof image === 'string') return image;
@@ -411,7 +408,6 @@ export const updateProduct = async (
         })
     );
 
-    // 3.5 Actualizar el producto con las imágenes correctas
     const { error: updateImagesError } = await supabase
         .from('products')
         .update({ images: newImages })
@@ -419,7 +415,6 @@ export const updateProduct = async (
 
     if (updateImagesError) throw new Error(updateImagesError.message);
 
-    // 4. Actualizar o crear nuevas variantes
     for (const variant of productInput.variants) {
         if (variant.id) {
             const { error: updateVariantError } = await supabase
