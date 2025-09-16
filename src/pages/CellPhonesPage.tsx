@@ -31,20 +31,11 @@ export const CellPhonesPage = () => {
         priceMin,
         priceMax,
         searchTerm,
+        sortOrder,
     });
 
     const preparedProducts = prepareProducts(products);
 
-    const sortedProducts = [...preparedProducts].sort((a, b) => {
-        const minPriceA = a.variants && a.variants.length > 0 ? Math.min(...a.variants.map(v => v.price)) : Infinity;
-        const minPriceB = b.variants && b.variants.length > 0 ? Math.min(...b.variants.map(v => v.price)) : Infinity;
-
-        if (sortOrder === 'desc') {
-            return minPriceB - minPriceA;
-        } else {
-            return minPriceA - minPriceB;
-        }
-    });
 
     return (
         <>
@@ -52,24 +43,24 @@ export const CellPhonesPage = () => {
                 Tienda
             </h1>
 
-            <div className='mb-8 flex justify-center'>
-                <div className='relative max-w-2xl w-full'>
+            <div className='flex justify-center mb-8'>
+                <div className='relative w-full max-w-2xl'>
                     <input
                         type='text'
                         placeholder='Buscar productos por nombre, marca o categoría...'
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className='w-full px-6 py-4 pl-12 text-lg border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent shadow-sm'
+                        className='w-full px-6 py-4 pl-12 text-lg border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent'
                     />
-                    <div className='absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none'>
-                        <svg className='h-6 w-6 text-gray-400' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                    <div className='absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none'>
+                        <svg className='w-6 h-6 text-gray-400' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                             <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' />
                         </svg>
                     </div>
                 </div>
             </div>
 
-            <div className='mb-6 flex flex-col sm:flex-row items-center gap-4'>
+            <div className='flex flex-col items-center gap-4 mb-6 sm:flex-row'>
                 <div className='flex-1 text-center sm:text-left'>
                     {searchTerm ? (
                         <p className='text-lg text-gray-600'>
@@ -131,7 +122,7 @@ export const CellPhonesPage = () => {
                 ) : (
                     <div className='flex flex-col col-span-2 gap-12 lg:col-span-2 xl:col-span-4'>
                         <div className='grid grid-cols-2 gap-3 gap-y-10 xl:grid-cols-4'>
-                            {sortedProducts.map(product => (
+                            {preparedProducts.map(product => (
                                 <CardProduct
                                     key={product.id}
                                     name={product.name}

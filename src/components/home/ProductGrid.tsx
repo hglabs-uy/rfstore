@@ -30,14 +30,14 @@ export const ProductGrid = ({ title, products }: Props) => {
 
 	return (
 		<div className='my-32'>
-			<h2 className='text-3xl font-semibold text-center mb-8 md:text-4xl lg:text-5xl'>
+			<h2 className='mb-8 text-3xl font-semibold text-center md:text-4xl lg:text-5xl'>
 				{title}
 			</h2>
 
 			
 
 			{/* Contador de resultados y ordenamiento */}
-			<div className='mb-6 flex flex-col sm:flex-row items-center justify-between gap-4'>
+			<div className='flex flex-col items-center justify-between gap-4 mb-6 sm:flex-row'>
 				{searchTerm && (
 					<div className='text-center sm:text-left'>
 						<p className='text-lg text-gray-600'>

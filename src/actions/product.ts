@@ -25,76 +25,7 @@ export const getProducts = async (page: number) => {
     return { products, count };
 };
 
-export const getFilteredProducts = async ({
-    brands = [],
-    categories = [],
-    priceMin,
-    priceMax,
-    page,
-    searchTerm,
-    sortOrder,
-}: {
-    brands: string[];
-    categories?: string[];
-    priceMin?: number;
-    priceMax?: number;
-    page: number;
-    searchTerm?: string;
-    sortOrder?: 'asc' | 'desc';
-}) => {
-    const itemsPerPage = 12;
-    const from = (page - 1) * itemsPerPage;
-    const to = from + itemsPerPage - 1;
 
-    let query = supabase
-        .from('products')
-        .select('*, variants(*), brand:brands(*), category:categories(*)', { count: 'exact' });
-
-    if (searchTerm) {
-        query = query.ilike('name', `%${searchTerm}%`);
-    }
-
-    if (brands.length > 0) {
-        query = query.in('brand_id', brands);
-    }
-
-    if (categories && categories.length > 0) {
-        query = query.in('category_id', categories);
-    }
-
-    // Aquí se aplica la ordenación del lado del servidor
-    // Para que esto funcione bien, la columna 'min_price' debe existir
-    // ya sea en tu tabla 'products' o en una vista que la contenga.
-    if (sortOrder === 'asc') {
-        query = query.order('min_price', { ascending: true });
-    } else if (sortOrder === 'desc') {
-        query = query.order('min_price', { ascending: false });
-    } else {
-        query = query.order('created_at', { ascending: false });
-    }
-
-    // Aquí se aplica el filtro de precio del lado del servidor.
-    // Necesita que la columna 'min_price' exista.
-    if (typeof priceMin === 'number') {
-        query = query.gte('min_price', priceMin);
-    }
-    if (typeof priceMax === 'number') {
-        query = query.lte('min_price', priceMax);
-    }
-
-    query = query.range(from, to);
-
-    const { data, error, count } = await query;
-
-    if (error) {
-        console.log(error.message);
-        throw new Error(error.message);
-    }
-    
-    // Eliminamos el filtro de precio del lado del cliente,
-    // ya que ahora se hace en la base de datos.
-    return { data, count: count ?? 0 };
-};
 
 export const getRecentProducts = async () => {
     const { data: products, error } = await supabase
