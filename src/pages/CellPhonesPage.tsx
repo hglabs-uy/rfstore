@@ -14,7 +14,7 @@ export const CellPhonesPage = () => {
     const [priceMin, setPriceMin] = useState<number | undefined>(undefined);
     const [priceMax, setPriceMax] = useState<number | undefined>(undefined);
     const [searchTerm, setSearchTerm] = useState('');
-    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc'); 
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | undefined>(undefined);
 
     useEffect(() => {
         setPage(1);

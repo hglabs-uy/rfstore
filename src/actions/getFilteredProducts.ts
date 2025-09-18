@@ -20,31 +20,37 @@ export async function getFilteredProducts({
   priceMax,
   page,
   searchTerm = '',
-  sortOrder = 'desc',
+  sortOrder,
 }: Args) {
   const from = (page - 1) * PAGE_SIZE;
   const to = from + PAGE_SIZE - 1;
 
   // 1) Vista ya ORDENADA + PAGINADA
-  let baseQuery = supabase
-    .from('products_with_price')
-    .select(
-      'id, name, slug, images, features, description, created_at, brand_id, category_id, price',
-      { count: 'exact' }
-    )
-    .order('price', { ascending: sortOrder === 'asc' })
-    .range(from, to);
+let baseQuery = supabase
+  .from('products_with_price')
+  .select(
+    'id, name, slug, images, features, description, created_at, brand_id, category_id, price',
+    { count: 'exact' }
+  )
+  .range(from, to);
 
-  if (brands?.length)      baseQuery = baseQuery.in('brand_id', brands);
-  if (categories?.length)  baseQuery = baseQuery.in('category_id', categories);
-  if (typeof priceMin === 'number') baseQuery = baseQuery.gte('price', priceMin);
-  if (typeof priceMax === 'number') baseQuery = baseQuery.lte('price', priceMax);
+// aplicar ordenamiento
+if (sortOrder === 'asc') {
+  baseQuery = baseQuery.order('price', { ascending: true });
+} else if (sortOrder === 'desc') {
+  baseQuery = baseQuery.order('price', { ascending: false });
+}
 
-  if (searchTerm?.trim()) {
-    const ilike = `%${searchTerm.trim()}%`;
-    baseQuery = baseQuery.or(`name.ilike.${ilike},slug.ilike.${ilike}`);
-  }
+// aplicar filtros
+if (brands?.length)      baseQuery = baseQuery.in('brand_id', brands);
+if (categories?.length)  baseQuery = baseQuery.in('category_id', categories);
+if (typeof priceMin === 'number') baseQuery = baseQuery.gte('price', priceMin);
+if (typeof priceMax === 'number') baseQuery = baseQuery.lte('price', priceMax);
 
+if (searchTerm?.trim()) {
+  const ilike = `%${searchTerm.trim()}%`;
+  baseQuery = baseQuery.or(`name.ilike.${ilike},slug.ilike.${ilike}`);
+}
   const { data: baseRows, error: baseErr, count } = await baseQuery;
   if (baseErr) throw baseErr;
   if (!baseRows?.length) return { data: [], count: count ?? 0 };
