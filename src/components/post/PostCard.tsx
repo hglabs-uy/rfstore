@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom';
 
 // (El tipo Post y la función formatDate se mantienen igual)
-type Post = { id: string; title: string; content: string; cover_image_url: string | null; created_at: string; author: { full_name: string; } | null; };
+type Post = { id: string; title: string; content: string; cover_image_url: string | null; created_at: string; author: { full_name: string; } | null; slug: string; };
 const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
 
 const PostCard = ({ post }: { post: Post }) => {
@@ -10,7 +10,7 @@ const PostCard = ({ post }: { post: Post }) => {
 
     return (
         <article className="bg-white border border-gray-200 rounded-xl shadow-sm transition-all duration-300 hover:shadow-lg">
-            <Link to={`/blog/${post.id}`} className="block">
+            <Link to={`/blog/${post.slug}`} className="block">
                 <div className="p-6">
                     <header className="flex items-center mb-4">
                         <div className="flex-shrink-0">

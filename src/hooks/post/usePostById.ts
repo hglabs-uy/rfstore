@@ -8,7 +8,7 @@ export const usePostById = () => {
 
     const { data: post, isLoading, error } = useQuery({
         // La queryKey incluye el postId para que sea única por cada post
-        queryKey: ['post', postId],
+        queryKey: ['post', postId], 
         queryFn: () => {
             if (!postId) return null;
             return getPostById(postId);

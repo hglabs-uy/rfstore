@@ -53,10 +53,11 @@ export const router = createBrowserRouter([
                 path: 'blog', // Esta es la ruta PÚBLICA para que los clientes vean el blog
                 element: <BlogPage />,
             },
-            {
-                path: 'blog/:postId',
+             {
+                path: 'blog/:slug', // Esta es la ruta PÚBLICA para que los clientes vean el blog
                 element: <PostDetailPage />,
             },
+
 
             // --- Rutas de Autenticación y Cuentas de Usuario ---
             {

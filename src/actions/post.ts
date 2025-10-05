@@ -5,28 +5,24 @@ export const getPublishedPosts = async (page: number = 1) => {
     const from = (page - 1) * itemsPerPage;
     const to = from + itemsPerPage - 1;
 
-    // 1. Obtenemos la lista de posts como antes, pero con un select más simple.
     const { data: postsData, error: postsError, count } = await supabase
         .from('posts')
-        .select(`*, images:post_images(*)`, { count: 'exact' }) // Ya no intentamos traer el autor aquí
+        .select(`*, id,title,content,cover_image_url,created_at,author_id,slug, images:post_images(*)`, { count: 'exact' }) // Ya no intentamos traer el autor aquí
         .eq('status', 'published')
         .order('created_at', { ascending: false })
         .range(from, to);
-
+ 
     if (postsError) {
         console.error('Error al obtener los posts:', postsError.message);
         throw new Error('No se pudieron cargar los posts.');
     }
 
     if (!postsData || postsData.length === 0) {
-        return { posts: [], count: 0 }; // Si no hay posts, devolvemos un array vacío.
+        return { posts: [], count: 0 }; 
     }
 
-    // 2. De la lista de posts que obtuvimos, extraemos todos los IDs de los autores.
     const authorIds = postsData.map(post => post.author_id);
 
-    // 3. Hacemos una SEGUNDA consulta para traer solo los datos de los autores necesarios.
-    // Usamos '.in()' para buscar múltiples IDs a la vez, lo que es muy eficiente.
     const { data: authorsData, error: authorsError } = await supabase
         .from('customers')
         .select('user_id, full_name')
@@ -37,10 +33,8 @@ export const getPublishedPosts = async (page: number = 1) => {
         throw new Error('No se pudieron cargar los autores de los posts.');
     }
 
-    // 4. Creamos un "mapa" para poder encontrar el nombre de cada autor fácilmente por su ID.
     const authorMap = new Map(authorsData.map(author => [author.user_id, author.full_name]));
 
-    // 5. Finalmente, unimos los posts con los nombres de sus autores.
     const postsWithAuthors = postsData.map(post => ({
         ...post,
         author: {
@@ -49,6 +43,26 @@ export const getPublishedPosts = async (page: number = 1) => {
     }));
 
     return { posts: postsWithAuthors, count };
+};
+
+export const getPostBySlug = async (slug: string) => {
+  const { data: post, error } = await supabase
+    .from('posts')
+    .select('id,title,content,cover_image_url,created_at,author_id,slug, images:post_images()')
+    .eq('slug', slug)
+    .eq('status', 'published')
+    .single();
+
+  if (error?.code === 'PGRST116') return null;
+  if (error) throw new Error('No se pudo cargar el post.');
+
+  const { data: author } = await supabase
+    .from('customers')
+    .select('full_name')
+    .eq('user_id', post.author_id)
+    .single();
+
+  return { ...post, author: { full_name: author?.full_name ?? 'Autor Desconocido' } };
 };
 
 export const getPostById = async (postId: string) => {

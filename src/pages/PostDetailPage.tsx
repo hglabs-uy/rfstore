@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { usePostById } from '../hooks/post/usePostById';
+import { usePostBySlug } from '../hooks/post/usePostBySlug';
 import { Loader } from '../components/shared/Loader';
 
 const formatDate = (dateString: string) =>
@@ -10,7 +10,7 @@ const formatDate = (dateString: string) =>
   });
 
 export const PostDetailPage = () => {
-  const { post, isLoading, error } = usePostById();
+  const { post, isLoading, error } = usePostBySlug();
 
   if (isLoading) return <Loader />;
 

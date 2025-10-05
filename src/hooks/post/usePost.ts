@@ -12,7 +12,8 @@ type Post = {
     author: {                 // <-- El objeto author que añadimos
         full_name: string;
     } | null;
-    images: any[]; 
+    images: any[];
+    slug: string;
 };
 
 export const usePosts = () => {

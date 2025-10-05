@@ -247,6 +247,7 @@ export type Database = {
           status: string;
           title: string;
           updated_at: string;
+          slug: string;
         };
         Insert: {
           author_id: string;
